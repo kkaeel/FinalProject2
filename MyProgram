@@ -1,0 +1,84 @@
+//main class; includes GUI
+
+
+/**
+* GUI here
+* Menu option involves Sort, Compare, Compute, Filter, Search, Modify, Show data, and Exit
+/
+
+/** 
+* SORTING OPTION HERE:
+* - Menu 1, ascending or descending order?
+* - Menu 2:
+* 1 Sort data based on names
+* 2 Sort data based on age
+* 3 Sort data based on district number
+* 4 Sort data based on gender
+* 5 Sort data based on type of residency
+*/
+
+/** 
+* COMPARING OPTION HERE:
+* Compare 2 entities:
+* - Menu 1: Input: (Last name, First name)
+* - Enter Name 1:
+* - Enter Name 2:
+* - result must be ("Name", "age" is older than "Name","age" ) ("Name", "residency" is a resident whilst "Name","residency" is not) etc., 
+* - (display compared result on age, type of residency, district number, and gender)
+*/
+
+/** 
+* COMPUTE OPTION HERE:
+* Compute for:
+* 1 Total males & females (Total males are: "" and total females are: "")
+* 2 Total residents & non-residents (Total residents are: "" and total non-residents are: "")
+* 3 Total number of people in a district (Total people in district "" are: "")
+* 4 Total residents and non-residents that are in a specific district (separated) (Total residents in district "" are: "" and the total non-residents in district "" are: "" ) 
+* 5 Total males and females in a specific district (Total males in district "" are: "" and the total females in district "" are: "" ) 
+* 6 Average of all ages
+* 7 Average of ages per district (Average age of district "": "")
+*/
+
+/** 
+* FILTER OPTION HERE:
+* Menu 1:
+* Choose what to filter:
+* 1 Age ranging from
+* 2 People living in a specific district
+* 3 Residency Type
+* 4 Gender
+* 5 Name
+* Menu 2:
+* Enter district
+* Menu 3:
+* 1 Residents only
+* 2 Non-residents only
+* Menu 4:
+* Males only
+* Females only
+* Menu 5:
+* 1 First name starting with letter
+* 2 Last name starting with letter
+* Menu 5.1:
+* Enter letter:
+*/
+
+/** 
+* SEARCH OPTION HERE:
+* Search for:
+* 1 Name
+* 2 Email Address
+* 3 Address
+* 4 Age 
+* 5 Type of residency
+* 6 District number
+* 7 Gender 
+* Input (chosen type to search for)
+*/
+
+/** 
+* MODIFY (delete or add) OPTION HERE:
+* Menu:
+* 1 Delete a specific person
+* 2 Add another person
+*/
