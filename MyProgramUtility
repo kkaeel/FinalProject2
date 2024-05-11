@@ -1,4 +1,4 @@
-//keme kemeng code binase q lang sa finaldemo
+//di ako sure pero ito yata un,, bat may employee ung kanina anteh ansuigjnskengkse
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,31 +8,28 @@ import java.util.List;
 public class MyProgramUtility {
 
     public static void main(String[] args) {
-        
+
     }
-    
+
     private List<Citizen> readDataFileIntoList(String filename) {
-    try {
-        List<Citizen> citizen = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        while (true) {
-            String line = reader.readLine();
-            if (line == null) {
-                break;
+        try {
+            List<Citizen> citizen = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                String[] data = line.split(",");//splits data fields using comma
+                boolean resident = data[4].equalsIgnoreCase("resident");
+                Citizen cit = new Citizen(data[0],data[1],data[2],data[3],Integer.parseInt(data[4]),Integer.parseInt(data[5]),data[7].charAt(0));
+                System.out.println(cit);
             }
-            String[] data = line.split(",");//splits data fields using comma
-            boolean resident = data[4].equalsIgnoreCase("resident");
-            Citizen cit = new Citizen(data[0],data[1],data[2],data[3],Integer.parseInt(data[4]),resident,Integer.parseInt(data[5]),data[6].charAt(0));
-            //boolean permanent = data[7].equalsIgnoreCase("permanent");
-            //Employee emp = new Employee(data[0], data[1], data[4], data[2].charAt(0), Integer.parseInt(data[3]), permanent, Double.parseDouble(data[6]), Integer.parseInt(data[5])); //data fields
-            //employees.add(emp);
-            System.out.println(cit);
+            reader.close();
+            return citizen;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Data file read error.");
         }
-        reader.close();
-        return citizen;
-        
-    } catch (Exception e) {
-        throw new RuntimeException("Data file read error.");
     }
-}
 }
