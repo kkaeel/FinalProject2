@@ -1,7 +1,9 @@
 package prog2.finalgroup;
-// Reference class
+
 public class Citizen implements Comparable<Citizen> {
-    private String fullName;
+    private String firstName;
+
+    private String lastName;
     private String email;
     private String address;
     private int age;
@@ -14,7 +16,8 @@ public class Citizen implements Comparable<Citizen> {
      * contains placeholders only.
      */
     public Citizen() {
-        fullName = "";
+        firstName = "";
+        lastName = "";
         email = "";
         address = "";
         age = 0;
@@ -26,8 +29,9 @@ public class Citizen implements Comparable<Citizen> {
     /**
      * Constructor with Parameters
      */
-    public Citizen(String fullName, String email, String address, int age, boolean resident, int district, char gender) {
-        this.fullName = fullName;
+    public Citizen(String firstName, String lastName, String email, String address, int age, boolean resident, int district, char gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.age = age;
@@ -38,10 +42,14 @@ public class Citizen implements Comparable<Citizen> {
 
 
     // Setters
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+    public void setFirstName(String firstName) {
 
+        this.firstName = firstName;
+    }
+    public void getLastName(String lastName) {
+
+        this.lastName = lastName;
+    }
     public void setEmail(String email) {
         this.email = email;
     }
@@ -67,8 +75,12 @@ public class Citizen implements Comparable<Citizen> {
     }
 
     // Getters
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -101,10 +113,9 @@ public class Citizen implements Comparable<Citizen> {
     @Override
     public String toString(){
         String result="";
-        result = fullName+","+email+","+address+","+age+","+resident+","+district+","+gender;
+        result = firstName+","+lastName+","+email+","+address+","+age+","+resident+","+district+","+gender;
         return result;
     }
-
     @Override
     /**
      * Compare the residency of current citizen to another citizen.
@@ -118,6 +129,4 @@ public class Citizen implements Comparable<Citizen> {
             return 0; // both citizens have the same residency, they will be equal
         }
     }
-
 } // End of Class
-
