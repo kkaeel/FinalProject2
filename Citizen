@@ -1,1 +1,123 @@
+package prog2.finalgroup;
+// Reference class
+public class Citizen implements Comparable<Citizen> {
+    private String fullName;
+    private String email;
+    private String address;
+    private int age;
+    private boolean resident;
+    private int district;
+    private char gender;
+
+    /**
+     * Default Constructor
+     * contains placeholders only.
+     */
+    public Citizen() {
+        fullName = "";
+        email = "";
+        address = "";
+        age = 0;
+        resident = true;
+        district = 0;
+        gender = 'a';
+    }
+
+    /**
+     * Constructor with Parameters
+     */
+    public Citizen(String fullName, String email, String address, int age, boolean resident, int district, char gender) {
+        this.fullName = fullName;
+        this.email = email;
+        this.address = address;
+        this.age = age;
+        this.resident = resident;
+        this.district = district;
+        this.gender = gender;
+    }
+
+
+    // Setters
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setResident(boolean resident) {
+        this.resident = resident;
+    }
+
+    public void setDistrict(int district) {
+        this.district = district;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    // Getters
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public boolean isResident() {
+        return resident;
+    }
+
+    public int getDistrict() {
+        return district;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    /**
+     *Returns a string describing a citizen.
+     **/
+    @Override
+    public String toString(){
+        String result="";
+        result = fullName+","+email+","+address+","+age+","+resident+","+district+","+gender;
+        return result;
+    }
+
+    @Override
+    /**
+     * Compare the residency of current citizen to another citizen.
+     */
+    public int compareTo(Citizen another) {
+        if (this.isResident() && !another.isResident()) {
+            return 1; // current citizen is considered greater than the other citizen
+        } else if (!this.isResident() && another.isResident()) {
+            return -1; // current citizen is considered less than the other citizen
+        } else {
+            return 0; // both citizens have the same residency, they will be equal
+        }
+    }
+
+} // End of Class
 
