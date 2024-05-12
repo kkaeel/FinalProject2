@@ -52,6 +52,130 @@ public class MyProgram {
 * 6 Average of all ages
 * 7 Average of ages per district (Average age of district "": "")
 */
+// wait lang mga teh di ako sure kasi  may error kingina
+case 3: 
+    Scanner scanner;
+        while (true) {
+        System.out.println("Compute for: ");
+        System.out.println("1. Total males & females");
+        System.out.println("2. Total residents & non-residents");
+        System.out.println("3. Total number of people in a district");
+        System.out.println("4. Total residents and non-residents in a district");
+        System.out.println("5. Total males and females in a district");
+        System.out.println("6. Average of all ages");
+        System.out.println("7. Average of ages per district");
+        System.out.println("8. Exit");
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                totalMalesAndFemales();
+                break;
+            case 2:
+                totalResidentsAndNonResidents();
+                break;
+            case 3:
+                Citizen[] citizens;
+                totalPeopleInDistrict(citizens);
+                break;
+            case 4:
+                totalResidentsAndNonResidentsInDistrict();
+                break;
+            case 5:
+                totalMalesAndFemalesInDistrict();
+                break;
+            case 6:
+                averageOfAllAges();
+                break;
+            case 7:
+                averageOfAgesPerDistrict();
+                break;
+            case 8:
+                System.out.println("Goodbye!");
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+    private void totalMalesAndFemales() {
+        Map<String, Integer> genderCounts = new HashMap<>();
+        genderCounts.put("male", 0);
+        genderCounts.put("female", 0);
+
+        for (Citizen citizen : citizens) {
+            String gender = Character.toString(citizen.getGender()).toLowerCase();
+            genderCounts.put(gender, genderCounts.get(gender) + 1);
+        }
+
+        int totalM = genderCounts.get("male");
+        int totalF = genderCounts.get("female");
+
+        System.out.printf("Total males: %d%n", totalM);
+        System.out.printf("Total females: %d%n", totalF);
+        System.out.printf("Total: %d%n", totalM + totalF);
+    }
+
+    private void totalResidentsAndNonResidents() {
+        int rCount = 0;
+        int nrCount = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            br.readLine(); // skip headers
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String residencyStatus = data[0].trim();
+                if (residencyStatus.equalsIgnoreCase("resident")) {
+                    rCount++;
+                } else {
+                    nrCount++;
+                }
+            }
+
+         
+            System.out.println("Number of residents: " + rCount);
+            System.out.println("Number of non-residents: " + nrCount);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static void totalPeopleInDistrict(Citizen[] citizens) {
+        // Print out the Citizen objects
+        for (Citizen citizen : citizens) {
+            System.out.println(citizen);
+        }
+
+        Map<Integer, Integer> dCount = new HashMap<>();
+        for (Citizen citizen : citizens) {
+            int district = citizen.getDistrict();
+            if (dCount.containsKey(district)) {
+                dCount.put(district, dCount.get(district) + 1);
+            } else {
+                dCount.put(district, 1);
+            }
+        }
+        System.out.println("\nTotal citizens in each district:");
+        for (Map.Entry<Integer, Integer> entry : districtCounts.entrySet()) {
+            System.out.printf("District %d: %d%n", entry.getKey(), entry.getValue());
+        }
+    }
+
+    private void averageOfAgesPerDistrict () {
+    }
+
+    private void averageOfAllAges () {
+    }
+
+    private void totalResidentsAndNonResidentsInDistrict () {
+
+    }
+
+    private void totalMalesAndFemalesInDistrict () {
+    }
+
+}
+
 
 /** 
 * FILTER OPTION HERE:
