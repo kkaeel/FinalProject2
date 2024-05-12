@@ -450,18 +450,19 @@ public class MyProgram {
                                 }
                             }
 
-                            String genderInput = null;
+                             char genderInput;
                             String gender = "";
-                            while (genderInput == null) {
+
+                            while (gender.isEmpty()) {
                                 System.out.print("Enter the gender (m/f): ");
-                                genderInput = keyboard.nextLine();
-                                if (genderInput.equalsIgnoreCase("m")) {
+                                genderInput = keyboard.nextLine().charAt(0);
+                                if (genderInput == 'm') {
                                     gender = "Male";
-                                } else if (genderInput.equalsIgnoreCase("f")) {
+                                } else if (genderInput == 'f') {
                                     gender = "Female";
                                 } else {
                                     System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
-                                    genderInput = null;
+                                    gender = "";
                                 }
                             }
 
