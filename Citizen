@@ -23,7 +23,7 @@ public class Citizen implements Comparable<Citizen> {
         age = 0;
         resident = true;
         district = 0;
-        gender = '';
+        gender = 'a';
     }
 
     /**
@@ -103,7 +103,7 @@ public class Citizen implements Comparable<Citizen> {
         return district;
     }
 
-    public String getGender() {
+    public char getGender() {
         return gender;
     }
 
