@@ -1,9 +1,8 @@
 package prog2.finalgroup;
 
 public class Citizen implements Comparable<Citizen> {
-    private String firstName;
 
-    private String lastName;
+    private String fullName;
     private String email;
     private String address;
     private int age;
@@ -16,8 +15,7 @@ public class Citizen implements Comparable<Citizen> {
      * contains placeholders only.
      */
     public Citizen() {
-        firstName = "";
-        lastName = "";
+        fullName = "";
         email = "";
         address = "";
         age = 0;
@@ -30,8 +28,7 @@ public class Citizen implements Comparable<Citizen> {
      * Constructor with Parameters
      */
     public Citizen(String firstName, String lastName, String email, String address, int age, boolean resident, int district, char gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        setFullName(firstName, lastName); // Merges first and last name
         this.email = email;
         this.address = address;
         this.age = age;
@@ -40,16 +37,11 @@ public class Citizen implements Comparable<Citizen> {
         this.gender = gender;
     }
 
-
     // Setters
-    public void setFirstName(String firstName) {
-
-        this.firstName = firstName;
+    public void setFullName (String firstName, String lastName) {
+        this.fullName = firstName + " " + lastName; // Merges first and last name
     }
-    public void getLastName(String lastName) {
 
-        this.lastName = lastName;
-    }
     public void setEmail(String email) {
         this.email = email;
     }
@@ -75,12 +67,8 @@ public class Citizen implements Comparable<Citizen> {
     }
 
     // Getters
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getEmail() {
@@ -110,27 +98,19 @@ public class Citizen implements Comparable<Citizen> {
     /**
      *Returns a string describing a citizen.
      **/
-    @Override
-    public String toString() {
-        String residentStr = resident ? "Resident" : getResidentFromData();
-        return String.format("%-15s %-15s %-60s %-40s %-5d %-15s %-5d %-5s", firstName, lastName, email, address, age, residentStr, district, gender);
-    }
-
-
-    private String getResidentFromData() {
-        return (isResident() ? "Resident" : "Non-Resident");
+    public String toString(){
+        String result="";
+        result = fullName+","+email+","+address+","+age+","+resident+","+district+","+gender;
+        return result;
     }
     @Override
-    /**
-     * Compare the residency of current citizen to another citizen.
-     */
     public int compareTo(Citizen another) {
         if (this.isResident() && !another.isResident()) {
             return 1; // current citizen is considered greater than the other citizen
         } else if (!this.isResident() && another.isResident()) {
             return -1; // current citizen is considered less than the other citizen
         } else {
-            return 0; // both citizens have the same residency, they will be equal
+            return 0;
         }
     }
-} // End of Class
+} // End fo Class
