@@ -188,7 +188,7 @@ public class MyProgram {
 
             keyboard.close();
         }
-      
+    //modifyyy methodd (medj kulang pa e2)  
     protected static void modify() throws Exception {
             Scanner keyboard = new Scanner(System.in);
             int choice;
