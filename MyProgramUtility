@@ -11,35 +11,34 @@ public class MyProgramUtility {
 
     }
 
-     public static List<Citizen> readDataFileIntoList(String filename) {
-            try {
-                List<Citizen> citizens = new ArrayList<>();
-                BufferedReader reader = new BufferedReader(new FileReader(filename));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] data = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+    public static List<Citizen> readDataFileIntoList(String filename) {
+        try {
+            List<Citizen> citizens = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-                    // Check if the data array has enough elements
-                    if (data.length >= 8) {
-                        // Replace double quotes with spaces for the third field only
-                        String address = data[3].replace("\"", "");
+                // Check if the data array has enough elements
+                if (data.length >= 8) {
+                    // Replace double quotes with spaces for the third field only
+                    String address = data[3].replace("\"", "");
 
-                        boolean resident = Boolean.parseBoolean(data[5].trim());
-                        int age = Integer.parseInt(data[4].trim());
-                        int district = Integer.parseInt(data[6].trim());
-                        Citizen citizen = new Citizen(data[0], data[1], data[2], address, age, resident, district, data[7].charAt(0));
+                    boolean resident = Boolean.parseBoolean(data[5].trim());
+                    int age = Integer.parseInt(data[4].trim());
+                    int district = Integer.parseInt(data[6].trim());
+                    Citizen citizen = new Citizen(data[0], data[1], data[2], address, age, resident, district, data[7]);
 
-                        citizens.add(citizen);
-                        System.out.println(citizen);
-                    } else {
-                        throw new RuntimeException("Invalid data format in line: " + line);
-                    }
+                    citizens.add(citizen);
+                    System.out.println(citizen);
+                } else {
+                    throw new RuntimeException("Invalid data format in line: " + line);
                 }
-                reader.close();
-                return citizens;
-            } catch (Exception e) {
-                throw new RuntimeException("Data file read error: " + e.getMessage());
             }
+            reader.close();
+            return citizens;
+        } catch (Exception e) {
+            throw new RuntimeException("Data file read error: " + e.getMessage());
         }
-d
-
+    }
+}
