@@ -355,32 +355,33 @@ public class MyProgram {
                 System.out.println("Options:");
                 System.out.println("1. Add");
                 System.out.println("2. Delete");
-                System.out.print("Input choice:");
+                System.out.print("Input choice: ");
                 choice = keyboard.nextInt();
+                keyboard.nextLine();
 
                 switch (choice) {
                     case 1:
                         System.out.println("Add data");
                         File dataFile = new File("res/data");
                         try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
-                            String firstName = null;
-                            keyboard.nextLine(); // consume the remaining newline character
-                            while (firstName == null) {
-                                System.out.print("Enter the first name:");
-                                firstName = keyboard.nextLine();
-                                if (firstName.isEmpty()) {
-                                    System.out.println("First name cannot be empty. Please try again.");
-                                    firstName = null;
-                                }
-                            }
 
+                            String firstName = null;
                             String lastName = null;
-                            while (lastName == null) {
-                                System.out.print("Enter the last name: ");
-                                lastName = keyboard.nextLine();
-                                if (lastName.isEmpty()) {
-                                    System.out.println("Last name cannot be empty. Please try again.");
-                                    lastName = null;
+                            String fullName = null;
+
+                            while (fullName == null) {
+                                System.out.print("Enter the first name: ");
+                                firstName = keyboard.nextLine();
+                                if (firstName.equals("")) {
+                                    System.out.println("First name cannot be empty. Please try again.");
+                                } else {
+                                    System.out.print("Enter the last name: ");
+                                    lastName = keyboard.nextLine();
+                                    if (lastName.isEmpty()) {
+                                        System.out.println("Last name cannot be empty. Please try again.");
+                                    } else {
+                                        fullName = firstName + " " + lastName;
+                                    }
                                 }
                             }
 
@@ -464,7 +465,7 @@ public class MyProgram {
                                 }
                             }
 
-                            writer.println(firstName + "," + lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
+                            writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
                         } catch (FileNotFoundException e) {
                             System.out.println("The file does not exist.");
                         }
@@ -481,6 +482,7 @@ public class MyProgram {
                 String continueResponse = keyboard.next();
                 if (!continueResponse.equalsIgnoreCase("yes")) {
                     continueLooping = false;
+                    System.out.println("Modifying done");
                 }
             }
         }
