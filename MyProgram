@@ -81,52 +81,53 @@ public class MyProgram {
                              * 6 Average of all ages
                              * 7 Average of ages per district (Average age of district "": "")
                              */
-// wait lang mga teh di ako sure kasi  may error kingina
-                            /**
-                    Scanner scanner;
-                    while (true) {
-                        System.out.println("Compute for: ");
-                        System.out.println("1. Total males & females");
-                        System.out.println("2. Total residents & non-residents");
-                        System.out.println("3. Total number of people in a district");
-                        System.out.println("4. Total residents and non-residents in a district");
-                        System.out.println("5. Total males and females in a district");
-                        System.out.println("6. Average of all ages");
-                        System.out.println("7. Average of ages per district");
-                        System.out.println("8. Exit");
-                        System.out.print("Enter your choice: ");
-                        int choice = scanner.nextInt();
-                        switch (choice) {
-                            case 1:
-                                totalMalesAndFemales();
-                                break;
-                            case 2:
-                                totalResidentsAndNonResidents();
-                                break;
-                            case 3:
-                                Citizen[] citizens;
-                                totalPeopleInDistrict(citizens);
-                                break;
-                            case 4:
-                                totalResidentsAndNonResidentsInDistrict();
-                                break;
-                            case 5:
-                                totalMalesAndFemalesInDistrict();
-                                break;
-                            case 6:
-                                averageOfAllAges();
-                                break;
-                            case 7:
-                                averageOfAgesPerDistrict();
-                                break;
-                            case 8:
-                                System.out.println("Goodbye!");
-                                break;
-                            default:
-                                System.out.println("Invalid choice. Please try again.");
-                        }
+
+                    System.out.println("Compute for: ");
+                    System.out.println("1. Total males & females");
+                    System.out.println("2. Total residents & non-residents");
+                    System.out.println("3. Total number of people in a district");
+                    System.out.println("4. Total residents and non-residents in a district");
+                    System.out.println("5. Total males and females in a district");
+                    System.out.println("6. Average of all ages");
+                    System.out.println("7. Average of ages per district");
+                    System.out.println("8. Exit");
+                    System.out.print("Enter your choice: ");
+
+                    Random scanner = null;
+                    choice = scanner.nextInt();
+                    switch (choice) {
+                        case 1:
+                            totalMalesAndFemales();
+                            break;
+                        case 2:
+                            totalResidentsAndNonResidents();
+                            break;
+                        case 3:
+                            totalPeopleInDistrict();
+                            break;
+                        case 4:
+                            totalResidentsAndNonResidentsInDistrict();
+                            break;
+                        case 5:
+                            totalMalesAndFemalesInDistrict();
+                            break;
+                        case 6:
+                            averageOfAllAges();
+                            break;
+                        case 7:
+                            averageOfAgesPerDistrict();
+                            break;
+                        case 8:
+                            System.out.println("Goodbye!");
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                            break;
                     }
-                             */
+                    System.exit(0);
+
+            }
+
 
                             break;
                         case 5:
@@ -188,6 +189,157 @@ public class MyProgram {
 
             keyboard.close();
         }
+
+//mga method nung case 4,, ung sa tally:
+
+ private void averageOfAgesPerDistrict() {
+
+            MyProgramUtility utility = new MyProgramUtility();
+            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+            int[] districtCounts = new int[20];
+            int[] districtSums = new int[20];
+
+            for (Citizen citizen : citizens) {
+                districtCounts[citizen.getDistrict() - 1]++;
+                districtSums[citizen.getDistrict() - 1] += citizen.getAge();
+            }
+
+            for (int i = 0; i < districtCounts.length; i++) {
+                double averageAge = (double) districtSums[i] / districtCounts[i];
+                System.out.println("Average age in district " + (i + 1) + ": " + averageAge);
+            }
+        }
+
+
+    private void averageOfAllAges() {
+            MyProgramUtility utility = new MyProgramUtility();
+            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+            int sum = 0;
+            for (Citizen citizen : citizens) {
+                sum += citizen.getAge();
+            }
+
+            double averageAge = (double) sum / citizens.size();
+            System.out.println("Average age: " + averageAge);
+        }
+
+
+    private void totalMalesAndFemalesInDistrict() {
+            MyProgramUtility utility = new MyProgramUtility();
+            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+            int[] districtMaleCounts = new int[20];
+            int[] districtFemaleCounts = new int[1200];
+
+            for (Citizen citizen : citizens) {
+                if (citizen.getGender() == 'M') {
+                    districtMaleCounts[citizen.getDistrict()]++;
+                } else {
+                    districtFemaleCounts[citizen.getDistrict()]++;
+                }
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                System.out.println("Total males in district " + i + ": " + districtMaleCounts[i - 1]);
+                System.out.println("Total females in district " + i + ": " + districtFemaleCounts[i - 1]);
+            }
+        }
+
+
+    private void totalResidentsAndNonResidentsInDistrict() {
+            MyProgramUtility utility = new MyProgramUtility();
+            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+            int[] dResidentCount = new int[20];
+            int[] dNonResidentCount = new int[20];
+
+            for (Citizen citizen : citizens) {
+                if (citizen.isResident()) {
+                    dResidentCount[citizen.getDistrict()]++;
+                } else {
+                    dNonResidentCount[citizen.getDistrict()]++;
+                }
+            }
+
+            for (int i = 1; i <= 10; i++) {
+                System.out.println("Total residents in district " + i + ": " + dResidentCount[i - 1]);
+                System.out.println("Total non-residents in district " + i + ": " + dNonResidentCount[i - 1]);
+            }
+        }
+
+    private void totalPeopleInDistrict() {
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+        int[] dCounts = new int[20];
+
+        for (Citizen citizen : citizens) {
+            dCounts[citizen.getDistrict()]++;
+        }
+
+        int totalPeople = 0;
+        for (int count : dCounts) {
+            totalPeople += count;
+        }
+
+        System.out.println("Total number of people in all districts: " + totalPeople);
+    }
+
+    /**
+     * method totalMalesAndFemales
+     * compute the total number of males and females
+     */
+    private void totalMalesAndFemales() {
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+        int totalMales = 0;
+        int totalFemales = 0;
+
+        for (Citizen citizen : citizens) {
+            if (citizen.getGender() == 'M') {
+                totalMales++;
+            } else if (citizen.getGender() == 'F') {
+                totalFemales++;
+            }
+        }
+
+        System.out.println("Total males: " + totalMales);
+        System.out.println("Total females: " + totalFemales);
+    }
+
+    /**
+     * method totalResidentsAndNonResidents
+     * computes the total number of residents and non residents
+     */
+    private void totalResidentsAndNonResidents() {
+        String fileName = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            int rCount = 0;
+            int nrCount = 0;
+            String line;
+            br.readLine(); // skip headers
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String residencyStatus = data[0].trim();
+
+                if (residencyStatus.equalsIgnoreCase("resident")) {
+                    rCount++;
+                } else {
+                    nrCount++;
+                }
+            }
+            System.out.println("Number of residents: " + rCount);
+            System.out.println("Number of non-residents: " + nrCount);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     //modifyyy methodd (medj kulang pa e2)  
     protected static void modify() throws Exception {
             Scanner keyboard = new Scanner(System.in);
