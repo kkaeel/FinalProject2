@@ -113,8 +113,9 @@ public class Citizen implements Comparable<Citizen> {
     @Override
     public String toString() {
         String residentStr = resident ? "Resident" : getResidentFromData();
-        return firstName + "," + lastName + "," + email + "," + address + "," + age + "," + residentStr + "," + district + "," + gender;
+        return String.format("%-15s %-15s %-60s %-40s %-5d %-15s %-5d %c", firstName, lastName, email, address, age, residentStr, district, gender);
     }
+
 
     private String getResidentFromData() {
         return (isResident() ? "Resident" : "Non-Resident");
