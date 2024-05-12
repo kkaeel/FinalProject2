@@ -9,7 +9,7 @@ public class Citizen implements Comparable<Citizen> {
     private int age;
     private boolean resident;
     private int district;
-    private String gender;
+    private char gender;
 
     /**
      * Default Constructor
@@ -23,13 +23,13 @@ public class Citizen implements Comparable<Citizen> {
         age = 0;
         resident = true;
         district = 0;
-        gender = "";
+        gender = '';
     }
 
     /**
      * Constructor with Parameters
      */
-    public Citizen(String firstName, String lastName, String email, String address, int age, boolean resident, int district, String gender) {
+    public Citizen(String firstName, String lastName, String email, String address, int age, boolean resident, int district, char gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -70,7 +70,7 @@ public class Citizen implements Comparable<Citizen> {
         this.district = district;
     }
 
-    public void setGender(String gender) {
+    public void setGender(char gender) {
         this.gender = gender;
     }
 
