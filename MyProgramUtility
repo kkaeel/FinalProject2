@@ -1,4 +1,4 @@
-//di ako sure pero ito yata un,, bat may employee ung kanina anteh ansuigjnskengkse
+package prog2.finalgroup;//di ako sure pero ito yata un,, bat may employee ung kanina anteh ansuigjnskengkse
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,25 +11,31 @@ public class MyProgramUtility {
 
     }
 
-    private List<Citizen> readDataFileIntoList(String filename) {
+    public List<Citizen> readDataFileIntoList(String filename) {
         try {
-            List<Citizen> citizen = new ArrayList<>();
+            List<Citizen> citizens = new ArrayList<>();
             BufferedReader reader = new BufferedReader(new FileReader(filename));
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) {
-                    break;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",", -1); 
+
+                // Check if the data array has enough elements
+                if (data.length >= 8) {
+                    boolean resident = Boolean.parseBoolean(data[5].trim()); 
+                    int age = Integer.parseInt(data[4].trim()); 
+                    int district = Integer.parseInt(data[6].trim()); 
+                    Citizen citizen = new Citizen(data[0], data[1], data[2], data[3], age, resident, district, data[7].charAt(0));
+                    citizens.add(citizen);
+                    System.out.println(citizen);
+                } else {
+                    throw new RuntimeException("Invalid data format in line: " + line);
                 }
-                String[] data = line.split(",");//splits data fields using comma
-                boolean resident = data[4].equalsIgnoreCase("resident");
-                Citizen cit = new Citizen(data[0],data[1],data[2],data[3],Integer.parseInt(data[4]),Integer.parseInt(data[5]),data[7].charAt(0));
-                System.out.println(cit);
             }
             reader.close();
-            return citizen;
-
+            return citizens;
         } catch (Exception e) {
-            throw new RuntimeException("Data file read error.");
+            throw new RuntimeException("Data file read error: " + e.getMessage());
         }
     }
 }
+
