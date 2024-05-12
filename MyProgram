@@ -266,7 +266,146 @@ public class MyProgram {
     private void totalMalesAndFemalesInDistrict () {
     }
          */
+    protected static void modify() throws Exception {
+            Scanner keyboard = new Scanner(System.in);
+            int choice;
+            boolean continueLooping = true;
 
+            while (continueLooping) {
+                System.out.println("Modify data");
+                System.out.println("Options:");
+                System.out.println("1. Add");
+                System.out.println("2. Delete");
+                System.out.print("Input choice:");
+                choice = keyboard.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        System.out.println("Add data");
+                        File dataFile = new File("res/data");
+                        try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
+                            String firstName = null;
+                            keyboard.nextLine(); // consume the remaining newline character
+                            while (firstName == null) {
+                                System.out.print("Enter the first name:");
+                                firstName = keyboard.nextLine();
+                                if (firstName.isEmpty()) {
+                                    System.out.println("First name cannot be empty. Please try again.");
+                                    firstName = null;
+                                }
+                            }
+
+                            String lastName = null;
+                            while (lastName == null) {
+                                System.out.print("Enter the last name: ");
+                                lastName = keyboard.nextLine();
+                                if (lastName.isEmpty()) {
+                                    System.out.println("Last name cannot be empty. Please try again.");
+                                    lastName = null;
+                                }
+                            }
+
+                            String email = null;
+                            while (email == null) {
+                                System.out.print("Enter the email address: ");
+                                email = keyboard.nextLine();
+                                if (!email.contains("@") || !email.contains(".com")) {
+                                    System.out.println("Invalid email address. Please try again.");
+                                    email = null;
+                                }
+                            }
+
+                            String address = null;
+                            while (address == null) {
+                                System.out.print("Enter the address: ");
+                                address = keyboard.nextLine();
+                                if (address.isEmpty()) {
+                                    System.out.println("Address cannot be empty. Please try again.");
+                                    address = null;
+                                }
+                            }
+
+                            int age = 0;
+                            while (age <= 0) {
+                                System.out.print("Enter the age: ");
+                                try {
+                                    age = Integer.parseInt(keyboard.nextLine());
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid age. Please enter a valid number.");
+                                    age = 0;
+                                }
+                                if (age <= 0) {
+                                    System.out.println("Age must be greater than zero. Please try again.");
+                                }
+                            }
+
+                            String residentInput = null;
+                            boolean isResident = false;
+                            String resident = "";
+                            while (residentInput == null) {
+                                System.out.print("Enter if resident (yes/no): ");
+                                residentInput = keyboard.nextLine();
+                                if (residentInput.equalsIgnoreCase("yes")) {
+                                    isResident = true;
+                                    resident = "resident";
+                                } else if (residentInput.equalsIgnoreCase("no")) {
+                                    isResident = false;
+                                    resident = "non-resident";
+                                } else {
+                                    System.out.println("Invalid resident input. Please enter either 'yes' or 'no'.");
+                                    residentInput = null;
+                                }
+                            }
+
+                            String districtInput = null;
+                            int district = 0;
+                            while (districtInput == null) {
+                                System.out.print("Enter the district: ");
+                                try {
+                                    districtInput = keyboard.nextLine();
+                                    district = Integer.parseInt(districtInput);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid district. Please enter a valid number.");
+                                    districtInput = null;
+                                }
+                            }
+
+                            String genderInput = null;
+                            String gender = "";
+                            while (genderInput == null) {
+                                System.out.print("Enter the gender (m/f): ");
+                                genderInput = keyboard.nextLine();
+                                if (genderInput.equalsIgnoreCase("m")) {
+                                    gender = "Male";
+                                } else if (genderInput.equalsIgnoreCase("f")) {
+                                    gender = "Female";
+                                } else {
+                                    System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
+                                    genderInput = null;
+                                }
+                            }
+
+                            writer.println(firstName + "," + lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
+                        } catch (FileNotFoundException e) {
+                            System.out.println("The file does not exist.");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Delete data");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+
+                }
+                System.out.print("Do you want to continue? (yes/no): ");
+                String continueResponse = keyboard.next();
+                if (!continueResponse.equalsIgnoreCase("yes")) {
+                    continueLooping = false;
+                }
+            }
+        }
+    }
 }
     
 
