@@ -1,5 +1,19 @@
 //main class; includes GUI
+package prog2.finalgroup;
+import java.util.List;
 
+public class MyProgram {
+
+    public static void main(String[] args) {
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
+        // Print out the Citizen objects
+        for (Citizen citizen : citizens) {
+            System.out.println(citizen);
+        }
+    }
+}
 
 /**
 * GUI here
