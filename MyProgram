@@ -172,48 +172,52 @@ public class MyProgram {
 
 
             //Compute Method
-            System.out.println("Compute for: ");
-            System.out.println("1. Total males & females");
-            System.out.println("2. Total residents & non-residents");
-            System.out.println("3. Total number of people in a district");
-            System.out.println("4. Total residents and non-residents in a district");
-            System.out.println("5. Total males and females in a district");
-            System.out.println("6. Average of all ages");
-            System.out.println("7. Average of ages per district");
-            System.out.println("8. Back to Main Menu");
-            System.out.print("Enter your choice: ");
-            Scanner scanner = new Scanner(System.in);
-            choice = keyboard.nextInt();
-            switch (choice) {
-                case 1:
-                    totalMalesAndFemales();
-                    break;
-                case 2:
-                    totalResidentsAndNonResidents();
-                    break;
-                case 3:
-                    totalPeopleInDistrict();
-                    break;
-                case 4:
-                    totalResidentsAndNonResidentsInDistrict();
-                    break;
-                case 5:
-                    totalMalesAndFemalesInDistrict();
-                    break;
-                case 6:
-                    averageOfAllAges();
-                    break;
-                case 7:
-                    averageOfAgesPerDistrict();
-                    break;
-                case 8:
-                    System.out.println("Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
-            }
+            do {
+                System.out.println("Compute for: ");
+                System.out.println("1. Total males & females");
+                System.out.println("2. Total residents & non-residents");
+                System.out.println("3. Total number of people in a district");
+                System.out.println("4. Total residents and non-residents in a district");
+                System.out.println("5. Total males and females in a district");
+                System.out.println("6. Average of all ages");
+                System.out.println("7. Average of ages per district");
+                System.out.println("8. Back to Main Menu");
+                System.out.print("Enter your choice: ");
+                Scanner scanner = new Scanner(System.in);
+                choice = keyboard.nextInt();
+                switch (choice) {
+                    case 1:
+                          totalMalesAndFemales();
+                        break;
+                    case 2:
+                        totalResidentsAndNonResidents();
+                        break;
+                    case 3:
+                        totalPeopleInDistrict();
+                        break;
+                     case 4:
+                        totalResidentsAndNonResidentsInDistrict();
+                        break;
+                    case 5:
+                        totalMalesAndFemalesInDistrict();
+                        break;
+                    case 6:
+                        averageOfAllAges();
+                        break;
+                    case 7:
+                        averageOfAgesPerDistrict();
+                        break;
+                    case 8:
+                        System.out.println("Goodbye!");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                }
+            } while (choice != 8);
+
             break;
+
             case 5:
                 /**
                  * FILTER OPTION HERE:
