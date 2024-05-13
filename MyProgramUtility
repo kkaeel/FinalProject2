@@ -19,9 +19,9 @@ public class MyProgramUtility {
                 // Check if the data array has enough elements
                 if (data.length >= 8) {
 
-                    String fullName = data[0]+" "+data[1]; // Forms full name from the first and last name.
+                    String fullName = data[0] + " " + data[1]; // Forms full name from the first and last name.
                     String address = data[3].replace("\"", ""); // Replace double quotes with spaces for the third field only
-                    boolean resident = Boolean.parseBoolean(data[5].trim());
+                    boolean resident = data[5].equalsIgnoreCase("Resident"); // Check if the resident field is "Resident"
                     int age = Integer.parseInt(data[4].trim());
                     int district = Integer.parseInt(data[6].trim());
                     char gender = data[7].charAt(0);
@@ -39,4 +39,5 @@ public class MyProgramUtility {
             throw new RuntimeException("Data file read error: " + e.getMessage());
         }
     }
+
 }
