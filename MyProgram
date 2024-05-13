@@ -556,6 +556,113 @@ public class MyProgram {
 
     }
 
+
+//compareTo method
+while (true) {
+            System.out.println("COMPARING OPTION HERE:");
+            System.out.print("Enter name of the first resident (or '0' to quit):  ");
+            String input1 = scanner.nextLine();
+            if (input1.equalsIgnoreCase("0")) break;
+            Entity entity1 = findEntityByName(entities, input1);
+            if (entity1 == null) {
+                System.err.println("Entity not found.");
+                continue;
+            }
+
+            System.out.print("Enter name of the second resident:  ");
+            String input2 = scanner.nextLine();
+            if (input2.equalsIgnoreCase("exit")) break;
+            Entity entity2 = findEntityByName(entities, input2);
+            if (entity2 == null) {
+                System.err.println("Entity not found.");
+                continue;
+            }
+
+            System.out.println("Compare 2 entities:");
+            System.out.println(" - Menu 1: Choose input data:");
+            System.out.println(" 2 Email Address");
+            System.out.println(" 3 Address");
+            System.out.println(" 4 Age");
+            System.out.println(" 5 Type of residency");
+            System.out.println(" 6 District number");
+            System.out.println(" 7 Gender");
+            System.out.print("Enter the number corresponding to the input data you want to compare: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+            compareEntities(entity1, entity2, choice);
+        }
+    }
+
+    private static List<Entity> readEntitiesFromFile(String fileName) {
+        List<Entity> entities = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Entity entity = new Entity();
+                String[] columns = line.split(",");
+                if (columns.length < 7) { // Check if the array has at least 7 elements
+                    System.err.println("Invalid line: " + line);
+                    continue;
+                }
+                entity.setName(columns[NAME_INDEX]);
+                entity.setEmailAddress(columns[EMAIL_INDEX]);
+                entity.setAddress(columns[ADDRESS_INDEX]);
+                try {
+                    entity.setAge(Integer.parseInt(columns[AGE_INDEX]));
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid age: " + columns[AGE_INDEX]);
+                    continue;
+                }
+                try {
+                    entity.setDistrictNumber(Integer.parseInt(columns[DISTRICT_NUMBER_INDEX]));
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid district number: " + columns[DISTRICT_NUMBER_INDEX]);
+                    continue;
+                }
+                entity.setTypeOfResidency(columns[RESIDENCY_INDEX]);
+                entity.setGender(columns[GENDER_INDEX]);
+
+                entities.add(entity);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading file: " + e.getMessage(), e);
+        }
+        return entities;
+    }
+
+    private static Entity findEntityByName(List<Entity> entities, String name) {
+        Map<String, Entity> entityMap = new HashMap<>();
+        for (Entity entity : entities) {
+            entityMap.put(entity.getName().toLowerCase(), entity);
+        }
+        return entityMap.get(name.toLowerCase());
+    }
+
+    private static void compareEntities(Entity entity1, Entity entity2, int choice) {
+        switch (choice) {
+            case 2: // Email Address
+                System.out.println("(" + entity1.getName() + ", " + entity1.getEmailAddress() + " while " + entity2.getName() + ", " + entity2.getEmailAddress() + ")");
+                break;
+            case 3: // Address
+                System.out.println("(" + entity1.getName() + ", lives in" + entity1.getAddress() + " while " + entity2.getName() + ", lives in" + entity2.getAddress() + ")");
+                break;
+            case 4: // Age
+                System.out.println("(" + entity1.getName() + ", " + entity1.getAge() + " is older than " + entity2.getName() + ", " + entity2.getAge() + ")");
+                break;
+            case 5: // Type of Residency
+                System.out.println("(" + entity1.getName() + ", is a " + entity1.getTypeOfResidency() + " while " + entity2.getName() + " is a " + entity2.getTypeOfResidency() + ")");
+                break;
+            case 6: // District Number
+                System.out.println("(" + entity1.getName() + ", " + " lives in # " + entity1.getDistrictNumber() + " while " + entity2.getName() + ", " + " lives in # " + entity2.getDistrictNumber() + ")");
+                break;
+            case 7: // Gender
+                System.out.println("(" + entity1.getName() + " is " + entity1.getGender() + " while " + entity2.getName() + " is " + entity2.getGender() + ")");
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }//end of compareTo method
+
     //modifyyy methodd (medj kulang pa e2)
     protected static void modify() throws Exception {
         Scanner keyboard = new Scanner(System.in);
