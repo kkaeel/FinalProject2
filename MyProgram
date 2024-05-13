@@ -574,7 +574,7 @@ public class MyProgram {
             switch (choice) {
                 case 1:
                     System.out.println("Add data");
-                    File dataFile = new File("res/data");
+                    File dataFile = new File("res/data.csv");
                     try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
 
                         String firstName = null;
