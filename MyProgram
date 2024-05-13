@@ -1,27 +1,17 @@
 package prog2.finalgroup;
-
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Random;
 import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.File;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Scanner;
+import javax.swing.text.html.parser.Entity;
 
 public class MyProgram {
 
@@ -37,14 +27,11 @@ public class MyProgram {
         }
         System.exit(0);
     }
-
     public void run() throws FileNotFoundException, Exception {
         Scanner keyboard = new Scanner(System.in);
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int choice;
-
         do {
             System.out.println("Welcome to ------");
             System.out.println("<1> Show data");
@@ -58,10 +45,8 @@ public class MyProgram {
             System.out.print("Enter a number corresponding to your choice: ");
             choice = keyboard.nextInt();
             keyboard.nextLine();
-
             switch (choice) {
                 case 1:
-
                     // Print out the Citizen objects
                     for (Citizen citizen : citizens) {
                         System.out.printf("%s%n", citizen);
@@ -78,6 +63,53 @@ public class MyProgram {
                      * 4 Sort data based on gender
                      * 5 Sort data based on type of residency
                      */
+                    int num;
+                    do {
+                        System.out.println("What would you like to sort?");
+                        System.out.println("Press 1 if you would like to sort by first name");
+                        System.out.println("Press 2 if you would like to sort by last name");
+                        System.out.println("Press 3 if you would like to sort by email");
+                        System.out.println("Press 4 if you would like to sort by address");
+                        System.out.println("Press 5 if you would like to sort by age");
+                        System.out.println("Press 6 if you would like to sort by type of residency");
+                        System.out.println("Press 7 if you would like to sort by district");
+                        System.out.println("Press 8 if you would like to sort by gender");
+                        System.out.println("Press 9 to exit");
+                        System.out.print("\nPlease enter your answer: ");
+                        num = Integer.parseInt(keyboard.nextLine());
+                        switch (num) {
+                            case 1:
+                                sortAndPrint(res/data.csv, 0, "first name");
+                                break;
+                            case 2:
+                                sortAndPrint(res/data.csv, 1, "last name");
+                                break;
+                            case 3:
+                                sortAndPrint(res/data.csv, 2, "email");
+                                break;
+                            case 4:
+                                sortAndPrint(res/data.csv, 3, "address");
+                                break;
+                            case 5:
+                                sortAndPrintByAge(res/data.csv);
+                                break;
+                            case 6:
+                                sortAndPrintResidentsFirst(res/data.csv, 5, "type of residency");
+                                break;
+                            case 7:
+                                sortAndPrintByDistrict(res/data.csv);
+                                break;
+                            case 8:
+                                sortAndPrint(res/data.csv, 7, "gender");
+                                break;
+                            case 9:
+                                System.exit(0);
+                            default:
+                                System.out.println("Invalid option. Please try again.");
+                        }
+                    } while (num >= 1 && num <= 9);
+                    System.out.println("Invalid input please try again");
+
                     break;
                 case 3:
                     /**
@@ -89,6 +121,37 @@ public class MyProgram {
                      * - result must be ("Name", "age" is older than "Name","age" ) ("Name", "residency" is a resident whilst "Name","residency" is not) etc.,
                      * - (display compared result on age, type of residency, district number, and gender)
                      */
+                    while (true) {
+                        System.out.println("COMPARING OPTION HERE:");
+                        System.out.print("Enter name of the first resident (or '0' to quit):  ");
+                        String input1 = keyboard.nextLine();
+                        if (input1.equalsIgnoreCase("0")) break;
+                        Entity entity1 = findEntityByName(entities, input1);
+                        if (entity1 == null) {
+                            System.err.println("Entity not found.");
+                            continue;
+                        }
+                        System.out.print("Enter name of the second resident:  ");
+                        String input2 = keyboard.nextLine();
+                        if (input2.equalsIgnoreCase("exit")) break;
+                        Entity entity2 = findEntityByName(entities, input2);
+                        if (entity2 == null) {
+                            System.err.println("Entity not found.");
+                            continue;
+                        }
+                        System.out.println("Compare 2 entities:");
+                        System.out.println(" - Menu 1: Choose input data:");
+                        System.out.println(" 2 Email Address");
+                        System.out.println(" 3 Address");
+                        System.out.println(" 4 Age");
+                        System.out.println(" 5 Type of residency");
+                        System.out.println(" 6 District number");
+                        System.out.println(" 7 Gender");
+                        System.out.print("Enter the number corresponding to the input data you want to compare: ");
+                        int option = keyboard.nextInt();
+                        keyboard.nextLine(); // Consume newline character
+                        compareEntities(entity1, entity2, option);
+                    }
                     break;
                 case 4:
                     /**
@@ -102,321 +165,55 @@ public class MyProgram {
                      * 6 Average of all ages
                      * 7 Average of ages per district (Average age of district "": "")
                      */
-
 //===== Sort Method =====
-int num;
-        do {
-            System.out.println("What would you like to sort?");
-            System.out.println("Press 1 if you would like to sort by first name");
-            System.out.println("Press 2 if you would like to sort by last name");
-            System.out.println("Press 3 if you would like to sort by email");
-            System.out.println("Press 4 if you would like to sort by address");
-            System.out.println("Press 5 if you would like to sort by age");
-            System.out.println("Press 6 if you would like to sort by type of residency");
-            System.out.println("Press 7 if you would like to sort by district");
-            System.out.println("Press 8 if you would like to sort by gender");
-            System.out.println("Press 9 to exit");
-            System.out.print("\nPlease enter your answer: ");
-            num = Integer.parseInt(kbd.nextLine());
-
-            switch (num) {
-                case 1:
-                    sortAndPrint(csvData, 0, "first name");
-                    break;
-                case 2:
-                    sortAndPrint(csvData, 1, "last name");
-                    break;
-                case 3:
-                    sortAndPrint(csvData, 2, "email");
-                    break;
-                case 4:
-                    sortAndPrint(csvData, 3, "address");
-                    break;
-                case 5:
-                    sortAndPrintByAge(csvData);
-                    break;
-                case 6:
-                    sortAndPrintResidentsFirst(csvData, 5, "type of residency");
-                    break;
-                case 7:
-                    sortAndPrintByDistrict(csvData);
-                    break;
-                case 8:
-                    sortAndPrint(csvData, 7, "gender");
-                    break;
-                case 9:
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid option. Please try again.");
-            }
-
-        } while (num >= 1 && num <= 9);
-        System.out.println("Invalid input please try again");
-    }
-
-    // Method to sort and print CSV data by a specific column
-    private static void sortAndPrint(List<String[]> data, int columnIndex, String columnName) {
-        Scanner kbd = new Scanner(System.in);
-        System.out.println("To sort them by ascending order, please press one");
-        System.out.println("To sort them by descending order, please press two");
-        int order = Integer.parseInt(kbd.nextLine());
-        switch (order) {
-            case 1:
-                System.out.println("Ascending order by " + columnName + ":");
-                Collections.sort(data, Comparator.comparing(a -> a[columnIndex]));
-                printCsvData(data);
-                break;
-            case 2:
-                System.out.println("Descending order by " + columnName + ":");
-                Collections.sort(data, (a, b) -> b[columnIndex].compareTo(a[columnIndex]));
-                printCsvData(data);
-                break;
-            default:
-                System.out.println("Invalid option. Please try again.");
-        }
-    }
-
-    // Method to sort and print CSV data by age
-    private static void sortAndPrintByAge(List<String[]> data) {
-        Scanner kbd = new Scanner(System.in);
-        System.out.println("To sort them by ascending order, please press one");
-        System.out.println("To sort them by descending order, please press two");
-        int order = Integer.parseInt(kbd.nextLine());
-        switch (order) {
-            case 1:
-                System.out.println("Ascending order by age:");
-                Collections.sort(data, Comparator.comparingInt(a -> Integer.parseInt(a[4])));
-                printCsvData(data);
-                break;
-            case 2:
-                System.out.println("Descending order by age:");
-                Collections.sort(data, (a, b) -> Integer.parseInt(b[4]) - Integer.parseInt(a[4]));
-                printCsvData(data);
-                break;
-            default:
-                System.out.println("Invalid option. Please try again.");
-        }
-    }
-
-    // Method to sort and print CSV data by district
-    private static void sortAndPrintByDistrict(List<String[]> data) {
-        Scanner kbd = new Scanner(System.in);
-        System.out.println("To sort them by ascending order, please press one");
-        System.out.println("To sort them by descending order, please press two");
-        int order = Integer.parseInt(kbd.nextLine());
-        switch (order) {
-            case 1:
-                System.out.println("Ascending order by district:");
-                Collections.sort(data, Comparator.comparingInt(a -> Integer.parseInt(a[6])));
-                printCsvData(data);
-                break;
-            case 2:
-                System.out.println("Descending order by district:");
-                Collections.sort(data, (a, b) -> Integer.parseInt(b[6]) - Integer.parseInt(a[6]));
-                printCsvData(data);
-                break;
-            default:
-                System.out.println("Invalid option. Please try again.");
-        }
-    }
-
-    // Method to sort and print CSV data, with residents first
-    private static void sortAndPrintResidentsFirst(List<String[]> data, int columnIndex, String columnName) {
-        List<String[]> residents = new ArrayList<>();
-        List<String[]> nonResidents = new ArrayList<>();
-
-        // Separate residents and non-residents
-        for (String[] row : data) {
-            if (row.length > columnIndex && row[columnIndex].equalsIgnoreCase("resident")) {
-                residents.add(row);
-            } else {
-                nonResidents.add(row);
-            }
-        }
-
-        // Sort both residents and non-residents alphabetically
-        Collections.sort(residents, Comparator.comparing(a -> a[columnIndex].toLowerCase()));
-        Collections.sort(nonResidents, Comparator.comparing(a -> a[columnIndex].toLowerCase()));
-
-        // Print residents first, then non-residents
-        System.out.println("Residents:");
-        printCsvData(residents);
-        System.out.println("\nNon-Residents:");
-        printCsvData(nonResidents);
-    }
-
-    private static void printCsvData(List<String[]> data) {
-        for (String[] row : data) {
-            for (int i = 0; i < row.length; i++) {
-                // Check if the current column index is age or district
-                if (i == 4 || i == 6) {
-                    // Convert age or district to integer before printing
-                    System.out.print(Integer.parseInt(row[i]));
-                } else {
-                    // For other columns, directly print the value
-                    System.out.print(row[i]);
-                }
-                // Add a comma after each value except the last one
-                if (i < row.length - 1) {
-                    System.out.print(",");
-                }
-            }
-            // Print a new line after each row
-            System.out.println();
-        }// ===== end of sort method =====
+            // Method to sort and print CSV data by a specific column
 
 // ===== compareTo method =====
-while (true) {
-            System.out.println("COMPARING OPTION HERE:");
-            System.out.print("Enter name of the first resident (or '0' to quit):  ");
-            String input1 = scanner.nextLine();
-            if (input1.equalsIgnoreCase("0")) break;
-            Entity entity1 = findEntityByName(entities, input1);
-            if (entity1 == null) {
-                System.err.println("Entity not found.");
-                continue;
-            }
 
-            System.out.print("Enter name of the second resident:  ");
-            String input2 = scanner.nextLine();
-            if (input2.equalsIgnoreCase("exit")) break;
-            Entity entity2 = findEntityByName(entities, input2);
-            if (entity2 == null) {
-                System.err.println("Entity not found.");
-                continue;
-            }
 
-            System.out.println("Compare 2 entities:");
-            System.out.println(" - Menu 1: Choose input data:");
-            System.out.println(" 2 Email Address");
-            System.out.println(" 3 Address");
-            System.out.println(" 4 Age");
-            System.out.println(" 5 Type of residency");
-            System.out.println(" 6 District number");
-            System.out.println(" 7 Gender");
-            System.out.print("Enter the number corresponding to the input data you want to compare: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
-            compareEntities(entity1, entity2, choice);
-        }
-    }
-
-    private static List<Entity> readEntitiesFromFile(String fileName) {
-        List<Entity> entities = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                Entity entity = new Entity();
-                String[] columns = line.split(",");
-                if (columns.length < 7) { // Check if the array has at least 7 elements
-                    System.err.println("Invalid line: " + line);
-                    continue;
-                }
-                entity.setName(columns[NAME_INDEX]);
-                entity.setEmailAddress(columns[EMAIL_INDEX]);
-                entity.setAddress(columns[ADDRESS_INDEX]);
-                try {
-                    entity.setAge(Integer.parseInt(columns[AGE_INDEX]));
-                } catch (NumberFormatException e) {
-                    System.err.println("Invalid age: " + columns[AGE_INDEX]);
-                    continue;
-                }
-                try {
-                    entity.setDistrictNumber(Integer.parseInt(columns[DISTRICT_NUMBER_INDEX]));
-                } catch (NumberFormatException e) {
-                    System.err.println("Invalid district number: " + columns[DISTRICT_NUMBER_INDEX]);
-                    continue;
-                }
-                entity.setTypeOfResidency(columns[RESIDENCY_INDEX]);
-                entity.setGender(columns[GENDER_INDEX]);
-
-                entities.add(entity);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error reading file: " + e.getMessage(), e);
-        }
-        return entities;
-    }
-
-    private static Entity findEntityByName(List<Entity> entities, String name) {
-        Map<String, Entity> entityMap = new HashMap<>();
-        for (Entity entity : entities) {
-            entityMap.put(entity.getName().toLowerCase(), entity);
-        }
-        return entityMap.get(name.toLowerCase());
-    }
-
-    private static void compareEntities(Entity entity1, Entity entity2, int choice) {
-        switch (choice) {
-            case 2: // Email Address
-                System.out.println("(" + entity1.getName() + ", " + entity1.getEmailAddress() + " while " + entity2.getName() + ", " + entity2.getEmailAddress() + ")");
-                break;
-            case 3: // Address
-                System.out.println("(" + entity1.getName() + ", lives in" + entity1.getAddress() + " while " + entity2.getName() + ", lives in" + entity2.getAddress() + ")");
-                break;
-            case 4: // Age
-                System.out.println("(" + entity1.getName() + ", " + entity1.getAge() + " is older than " + entity2.getName() + ", " + entity2.getAge() + ")");
-                break;
-            case 5: // Type of Residency
-                System.out.println("(" + entity1.getName() + ", is a " + entity1.getTypeOfResidency() + " while " + entity2.getName() + " is a " + entity2.getTypeOfResidency() + ")");
-                break;
-            case 6: // District Number
-                System.out.println("(" + entity1.getName() + ", " + " lives in # " + entity1.getDistrictNumber() + " while " + entity2.getName() + ", " + " lives in # " + entity2.getDistrictNumber() + ")");
-                break;
-            case 7: // Gender
-                System.out.println("(" + entity1.getName() + " is " + entity1.getGender() + " while " + entity2.getName() + " is " + entity2.getGender() + ")");
-                break;
-            default:
-                System.out.println("Invalid choice.");
-        }
-    }// ===== end of compareTo method =====
-
-                    //Compute Method
-                    System.out.println("Compute for: ");
-                    System.out.println("1. Total males & females");
-                    System.out.println("2. Total residents & non-residents");
-                    System.out.println("3. Total number of people in a district");
-                    System.out.println("4. Total residents and non-residents in a district");
-                    System.out.println("5. Total males and females in a district");
-                    System.out.println("6. Average of all ages");
-                    System.out.println("7. Average of ages per district");
-                    System.out.println("8. Back to Main Menu");
-                    System.out.print("Enter your choice: ");
-
-                    Scanner scanner = new Scanner(System.in);
-                    choice = keyboard.nextInt();
-
-                    switch (choice) {
-                        case 1:
-                            totalMalesAndFemales();
-                            break;
-                        case 2:
-                            totalResidentsAndNonResidents();
-                            break;
-                        case 3:
-                            totalPeopleInDistrict();
-                            break;
-                        case 4:
-                            totalResidentsAndNonResidentsInDistrict();
-                            break;
-                        case 5:
-                            totalMalesAndFemalesInDistrict();
-                            break;
-                        case 6:
-                            averageOfAllAges();
-                            break;
-                        case 7:
-                            averageOfAgesPerDistrict();
-                            break;
-                        case 8:
-                            System.out.println("Goodbye!");
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
-                            break;
-                    }
-
+            //Compute Method
+            System.out.println("Compute for: ");
+            System.out.println("1. Total males & females");
+            System.out.println("2. Total residents & non-residents");
+            System.out.println("3. Total number of people in a district");
+            System.out.println("4. Total residents and non-residents in a district");
+            System.out.println("5. Total males and females in a district");
+            System.out.println("6. Average of all ages");
+            System.out.println("7. Average of ages per district");
+            System.out.println("8. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            Scanner scanner = new Scanner(System.in);
+            choice = keyboard.nextInt();
+            switch (choice) {
+                case 1:
+                    totalMalesAndFemales();
                     break;
+                case 2:
+                    totalResidentsAndNonResidents();
+                    break;
+                case 3:
+                    totalPeopleInDistrict();
+                    break;
+                case 4:
+                    totalResidentsAndNonResidentsInDistrict();
+                    break;
+                case 5:
+                    totalMalesAndFemalesInDistrict();
+                    break;
+                case 6:
+                    averageOfAllAges();
+                    break;
+                case 7:
+                    averageOfAgesPerDistrict();
+                    break;
+                case 8:
+                    System.out.println("Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+            break;
             case 5:
                 /**
                  * FILTER OPTION HERE:
@@ -453,7 +250,6 @@ while (true) {
                 System.out.println("5 Name");
                 System.out.print("Enter your choice: ");
                 int option = keyboard.nextInt();
-
                 switch (option) {
                     case 1:
                         filterByAgeRange(citizens);
@@ -490,8 +286,6 @@ while (true) {
                  */
                 /** (Incomplete search method, works pero need pa ng fixing pag pinili yung type of residency)
                  List<Citizen> allCitizens = MyProgramUtility.readDataFileIntoList("data.csv");
-
-
                  // Display search options for the user.
                  System.out.println("Search for (Enter Number):");
                  System.out.println("1. Name");
@@ -501,16 +295,12 @@ while (true) {
                  System.out.println("5. Type of residency");
                  System.out.println("6. District number");
                  System.out.println("7. Gender");
-
-
                  // Prompt user to select an information about a citizen / citizens that they want to search for.
                  Scanner kbd = new Scanner(System.in);
                  System.out.println("Enter the number corresponding to the detail/information of the citizen you want to search for:");
                  int detail = kbd.nextInt();
                  kbd.nextLine();
                  String userInput = "";
-
-
                  switch (detail) {
                  case 1:
                  System.out.print("Please enter the full name of the citizen: ");
@@ -543,19 +333,11 @@ while (true) {
                  default:
                  System.out.println("Invalid details provided.");
                  }
-
-
                  // Search for users based on user input
                  searchCitizens(allCitizens, detail, userInput);
                  kbd.close();
                  }
-
-
                  public static void searchCitizens(List<Citizen> citizens, int detail, String userInput) {
-
-
-
-
                  System.out.println("Search results from the selected information: ");
                  System.out.println();
                  System.out.printf("%-20s %-50s %-45s %-5s %-10s %-10s %-5s%n",
@@ -567,8 +349,6 @@ while (true) {
                  case 1:
                  if (citizen.getFullName().equalsIgnoreCase(userInput)) {
                  String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-
-
                  System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
                  citizen.getFullName(),
                  citizen.getEmail(),
@@ -666,9 +446,7 @@ while (true) {
                  System.out.println("================================================================================================================================================================");
                  }
                  }
-
                  */
-
                 break;
             case 7:
                 /**
@@ -683,52 +461,39 @@ while (true) {
                 break;
             default:
                 System.out.println("Invalid choice. Please enter a number between 1 and 8.");
-            }
-        }while (choice != 8) ;
-
+        }
+    }while (choice != 8) ;
         keyboard.close();
-    }
-
+}
     private void averageOfAgesPerDistrict() {
-
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int[] districtCounts = new int[20];
         int[] districtSums = new int[20];
-
         for (Citizen citizen : citizens) {
             districtCounts[citizen.getDistrict() - 1]++;
             districtSums[citizen.getDistrict() - 1] += citizen.getAge();
         }
-
         for (int i = 0; i < districtCounts.length; i++) {
             double averageAge = (double) districtSums[i] / districtCounts[i];
             System.out.println("Average age in district " + (i + 1) + ": " + averageAge);
         }
     }
-
     private void averageOfAllAges() {
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int sum = 0;
         for (Citizen citizen : citizens) {
             sum += citizen.getAge();
         }
-
         double averageAge = (double) sum / citizens.size();
         System.out.println("Average age: " + averageAge);
     }
-
-
     private void totalMalesAndFemalesInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int[] districtMaleCounts = new int[20];
         int[] districtFemaleCounts = new int[1200];
-
         for (Citizen citizen : citizens) {
             if (citizen.getGender() == 'M') {
                 districtMaleCounts[citizen.getDistrict()]++;
@@ -736,21 +501,16 @@ while (true) {
                 districtFemaleCounts[citizen.getDistrict()]++;
             }
         }
-
         for (int i = 1; i <= 10; i++) {
             System.out.println("Total males in district " + i + ": " + districtMaleCounts[i - 1]);
             System.out.println("Total females in district " + i + ": " + districtFemaleCounts[i - 1]);
         }
     }
-
-
     private void totalResidentsAndNonResidentsInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int[] dResidentCount = new int[20];
         int[] dNonResidentCount = new int[20];
-
         for (Citizen citizen : citizens) {
             if (citizen.isResident()) {
                 dResidentCount[citizen.getDistrict()]++;
@@ -758,31 +518,24 @@ while (true) {
                 dNonResidentCount[citizen.getDistrict()]++;
             }
         }
-
         for (int i = 1; i <= 10; i++) {
             System.out.println("Total residents in district " + i + ": " + dResidentCount[i - 1]);
             System.out.println("Total non-residents in district " + i + ": " + dNonResidentCount[i - 1]);
         }
     }
-
     private void totalPeopleInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int[] dCounts = new int[20];
-
         for (Citizen citizen : citizens) {
             dCounts[citizen.getDistrict()]++;
         }
-
         int totalPeople = 0;
         for (int count : dCounts) {
             totalPeople += count;
         }
-
         System.out.println("Total number of people in all districts: " + totalPeople);
     }
-
     /**
      * method totalMalesAndFemales
      * compute the total number of males and females
@@ -790,10 +543,8 @@ while (true) {
     private void totalMalesAndFemales() {
         MyProgramUtility utility = new MyProgramUtility();
         List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
         int totalMales = 0;
         int totalFemales = 0;
-
         for (Citizen citizen : citizens) {
             if (citizen.getGender() == 'M') {
                 totalMales++;
@@ -801,11 +552,9 @@ while (true) {
                 totalFemales++;
             }
         }
-
         System.out.println("Total males: " + totalMales);
         System.out.println("Total females: " + totalFemales);
     }
-
     /**
      * method totalResidentsAndNonResidents
      * computes the total number of residents and non residents
@@ -820,7 +569,6 @@ while (true) {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 String residencyStatus = data[0].trim();
-
                 if (residencyStatus.equalsIgnoreCase("resident")) {
                     rCount++;
                 } else {
@@ -829,20 +577,15 @@ while (true) {
             }
             System.out.println("Number of residents: " + rCount);
             System.out.println("Number of non-residents: " + nrCount);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
     //modifyyy methodd (medj kulang pa e2)
     protected static void modify() throws Exception {
         Scanner keyboard = new Scanner(System.in);
         int choice;
         boolean continueLooping = true;
-
         while (continueLooping) {
             System.out.println("Modify data");
             System.out.println("Options:");
@@ -851,17 +594,14 @@ while (true) {
             System.out.print("Input choice: ");
             choice = keyboard.nextInt();
             keyboard.nextLine();
-
             switch (choice) {
                 case 1:
                     System.out.println("Add data");
                     File dataFile = new File("res/data.csv");
                     try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
-
                         String firstName = null;
                         String lastName = null;
                         String fullName = null;
-
                         while (fullName == null) {
                             System.out.print("Enter the first name: ");
                             firstName = keyboard.nextLine();
@@ -877,7 +617,6 @@ while (true) {
                                 }
                             }
                         }
-
                         String email = null;
                         while (email == null) {
                             System.out.print("Enter the email address: ");
@@ -887,7 +626,6 @@ while (true) {
                                 email = null;
                             }
                         }
-
                         String address = null;
                         while (address == null) {
                             System.out.print("Enter the address: ");
@@ -897,7 +635,6 @@ while (true) {
                                 address = null;
                             }
                         }
-
                         int age = 0;
                         while (age <= 0) {
                             System.out.print("Enter the age: ");
@@ -911,7 +648,6 @@ while (true) {
                                 System.out.println("Age must be greater than zero. Please try again.");
                             }
                         }
-
                         String residentInput = null;
                         boolean isResident = false;
                         String resident = "";
@@ -929,7 +665,6 @@ while (true) {
                                 residentInput = null;
                             }
                         }
-
                         String districtInput = null;
                         int district = 0;
                         while (districtInput == null) {
@@ -942,10 +677,8 @@ while (true) {
                                 districtInput = null;
                             }
                         }
-
                         char genderInput;
                         String gender = "";
-
                         while (gender.isEmpty()) {
                             System.out.print("Enter the gender (m/f): ");
                             genderInput = keyboard.nextLine().charAt(0);
@@ -958,7 +691,6 @@ while (true) {
                                 gender = "";
                             }
                         }
-
                         writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
                     } catch (FileNotFoundException e) {
                         System.out.println("The file does not exist.");
@@ -970,7 +702,6 @@ while (true) {
                 default:
                     System.out.println("Invalid choice. Please try again.");
                     break;
-
             }
             System.out.print("Do you want to continue? (yes/no): ");
             String continueResponse = keyboard.next();
@@ -982,22 +713,181 @@ while (true) {
     }
     private static void filterByAgeRange(List<Citizen> citizens) {
     }
-
     private static void filterByDistrict(List<Citizen> citizens) {
     }
-
     private static void filterByResidencyType(List<Citizen> citizens) {
     }
-
     private static void filterByGender(List<Citizen> citizens) {
     }
-
     private static void filterByName(List<Citizen> citizens) {
     }
+    private static void sortAndPrint(List<String[]> data, int columnIndex, String columnName) {
+        Scanner kbd = new Scanner(System.in);
+        System.out.println("To sort them by ascending order, please press one");
+        System.out.println("To sort them by descending order, please press two");
+        int order = Integer.parseInt(kbd.nextLine());
+        switch (order) {
+            case 1:
+                System.out.println("Ascending order by " + columnName + ":");
+                Collections.sort(data, Comparator.comparing(a -> a[columnIndex]));
+                printCsvData(data);
+                break;
+            case 2:
+                System.out.println("Descending order by " + columnName + ":");
+                Collections.sort(data, (a, b) -> b[columnIndex].compareTo(a[columnIndex]));
+                printCsvData(data);
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
+        }
+    }
+    // Method to sort and print CSV data by age
+    private static void sortAndPrintByAge(List<String[]> data) {
+        Scanner kbd = new Scanner(System.in);
+        System.out.println("To sort them by ascending order, please press one");
+        System.out.println("To sort them by descending order, please press two");
+        int order = Integer.parseInt(kbd.nextLine());
+        switch (order) {
+            case 1:
+                System.out.println("Ascending order by age:");
+                Collections.sort(data, Comparator.comparingInt(a -> Integer.parseInt(a[4])));
+                printCsvData(data);
+                break;
+            case 2:
+                System.out.println("Descending order by age:");
+                Collections.sort(data, (a, b) -> Integer.parseInt(b[4]) - Integer.parseInt(a[4]));
+                printCsvData(data);
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
+        }
+    }
+    // Method to sort and print CSV data by district
+    private static void sortAndPrintByDistrict(List<String[]> data) {
+        Scanner kbd = new Scanner(System.in);
+        System.out.println("To sort them by ascending order, please press one");
+        System.out.println("To sort them by descending order, please press two");
+        int order = Integer.parseInt(kbd.nextLine());
+        switch (order) {
+            case 1:
+                System.out.println("Ascending order by district:");
+                Collections.sort(data, Comparator.comparingInt(a -> Integer.parseInt(a[6])));
+                printCsvData(data);
+                break;
+            case 2:
+                System.out.println("Descending order by district:");
+                Collections.sort(data, (a, b) -> Integer.parseInt(b[6]) - Integer.parseInt(a[6]));
+                printCsvData(data);
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
+        }
+    }
+    // Method to sort and print CSV data, with residents first
+    private static void sortAndPrintResidentsFirst(List<String[]> data, int columnIndex, String columnName) {
+        List<String[]> residents = new ArrayList<>();
+        List<String[]> nonResidents = new ArrayList<>();
+        // Separate residents and non-residents
+        for (String[] row : data) {
+            if (row.length > columnIndex && row[columnIndex].equalsIgnoreCase("resident")) {
+                residents.add(row);
+            } else {
+                nonResidents.add(row);
+            }
+        }
+        // Sort both residents and non-residents alphabetically
+        Collections.sort(residents, Comparator.comparing(a -> a[columnIndex].toLowerCase()));
+        Collections.sort(nonResidents, Comparator.comparing(a -> a[columnIndex].toLowerCase()));
+        // Print residents first, then non-residents
+        System.out.println("Residents:");
+        printCsvData(residents);
+        System.out.println("\nNon-Residents:");
+        printCsvData(nonResidents);
+    }
+    private static void printCsvData(List<String[]> data) {
+        for (String[] row : data) {
+            for (int i = 0; i < row.length; i++) {
+                // Check if the current column index is age or district
+                if (i == 4 || i == 6) {
+                    // Convert age or district to integer before printing
+                    System.out.print(Integer.parseInt(row[i]));
+                } else {
+                    // For other columns, directly print the value
+                    System.out.print(row[i]);
+                }
+                // Add a comma after each value except the last one
+                if (i < row.length - 1) {
+                    System.out.print(",");
+                }
+            }
+            // Print a new line after each row
+            System.out.println();
+        }// ===== end of sort method =====
+    }
+    private static List<Entity> readEntitiesFromFile(String fileName) {
+        List<Entity> entities = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Entity entity = new Entity();
+                String[] columns = line.split(",");
+                if (columns.length < 7) { // Check if the array has at least 7 elements
+                    System.err.println("Invalid line: " + line);
+                    continue;
+                }
+                entity.setName(columns[NAME_INDEX]);
+                entity.setEmailAddress(columns[EMAIL_INDEX]);
+                entity.setAddress(columns[ADDRESS_INDEX]);
+                try {
+                    entity.setAge(Integer.parseInt(columns[AGE_INDEX]));
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid age: " + columns[AGE_INDEX]);
+                    continue;
+                }
+                try {
+                    entity.setDistrictNumber(Integer.parseInt(columns[DISTRICT_NUMBER_INDEX]));
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid district number: " + columns[DISTRICT_NUMBER_INDEX]);
+                    continue;
+                }
+                entity.setTypeOfResidency(columns[RESIDENCY_INDEX]);
+                entity.setGender(columns[GENDER_INDEX]);
+                entities.add(entity);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading file: " + e.getMessage(), e);
+        }
+        return entities;
+    }
+    private static Entity findEntityByName(List<Entity> entities, String name) {
+        Map<String, Entity> entityMap = new HashMap<>();
+        for (Entity entity : entities) {
+            entityMap.put(entity.getName().toLowerCase(), entity);
+        }
+        return entityMap.get(name.toLowerCase());
+    }
+    private static void compareEntities(Entity entity1, Entity entity2, int choice) {
+        switch (choice) {
+            case 2: // Email Address
+                System.out.println("(" + entity1.getName() + ", " + entity1.getEmail() + " while " + entity2.getName() + ", " + entity2.getEmail() + ")");
+                break;
+            case 3: // Address
+                System.out.println("(" + entity1.getName() + ", lives in" + entity1.getAddress() + " while " + entity2.getName() + ", lives in" + entity2.getAddress() + ")");
+                break;
+            case 4: // Age
+                System.out.println("(" + entity1.getName() + ", " + entity1.getAge() + " is older than " + entity2.getName() + ", " + entity2.getAge() + ")");
+                break;
+            case 5: // Type of Residency
+                System.out.println("(" + entity1.getName() + ", is a " + entity1.getTypeOfResidency() + " while " + entity2.getName() + " is a " + entity2.getTypeOfResidency() + ")");
+                break;
+            case 6: // District Number
+                System.out.println("(" + entity1.getName() + ", " + " lives in # " + entity1.getDistrictNumber() + " while " + entity2.getName() + ", " + " lives in # " + entity2.getDistrictNumber() + ")");
+                break;
+            case 7: // Gender
+                System.out.println("(" + entity1.getName() + " is " + entity1.getGender() + " while " + entity2.getName() + " is " + entity2.getGender() + ")");
+                break;
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }// ===== end of compareTo method =====
 }
-
-
-
-
-
-
