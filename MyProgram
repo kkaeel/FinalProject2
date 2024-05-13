@@ -302,11 +302,11 @@ public class MyProgram {
     }while (choice != 8) ;
         keyboard.close();
 }
-    private void averageOfAgesPerDistrict() {
+     private void averageOfAgesPerDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-        int[] districtCounts = new int[20];
-        int[] districtSums = new int[20];
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
+        int[] districtCounts = new int[25];
+        int[] districtSums = new int[25];
         for (Citizen citizen : citizens) {
             districtCounts[citizen.getDistrict() - 1]++;
             districtSums[citizen.getDistrict() - 1] += citizen.getAge();
@@ -316,9 +316,10 @@ public class MyProgram {
             System.out.println("Average age in district " + (i + 1) + ": " + averageAge);
         }
     }
+
     private void averageOfAllAges() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
         int sum = 0;
         for (Citizen citizen : citizens) {
             sum += citizen.getAge();
@@ -326,10 +327,11 @@ public class MyProgram {
         double averageAge = (double) sum / citizens.size();
         System.out.println("Average age: " + averageAge);
     }
+
     private void totalMalesAndFemalesInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-        int[] districtMaleCounts = new int[20];
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
+        int[] districtMaleCounts = new int[21];
         int[] districtFemaleCounts = new int[1200];
         for (Citizen citizen : citizens) {
             if (citizen.getGender() == 'M') {
@@ -338,32 +340,41 @@ public class MyProgram {
                 districtFemaleCounts[citizen.getDistrict()]++;
             }
         }
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 21; i++) {
             System.out.println("Total males in district " + i + ": " + districtMaleCounts[i - 1]);
             System.out.println("Total females in district " + i + ": " + districtFemaleCounts[i - 1]);
         }
     }
+
     private void totalResidentsAndNonResidentsInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-        int[] dResidentCount = new int[20];
-        int[] dNonResidentCount = new int[20];
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
+
+        int[] dResidentCount = new int[21];
+        int[] dNonResidentCount = new int[21];
         for (Citizen citizen : citizens) {
-            if (citizen.isResident()) {
-                dResidentCount[citizen.getDistrict()]++;
+            int districtIndex = citizen.getDistrict();
+
+            if (districtIndex >= 1 && districtIndex <= 21) {
+                if (!citizen.isResident()) {
+                    dNonResidentCount[districtIndex - 1]++;
+                } else {
+                    dResidentCount[districtIndex - 1]++;
+                }
             } else {
-                dNonResidentCount[citizen.getDistrict()]++;
+                System.out.println("Invalid district index: " + districtIndex);
             }
         }
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 21; i++) {
             System.out.println("Total residents in district " + i + ": " + dResidentCount[i - 1]);
             System.out.println("Total non-residents in district " + i + ": " + dNonResidentCount[i - 1]);
         }
     }
-    private void totalPeopleInDistrict() {
+
+    private void totalPeople() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-        int[] dCounts = new int[20];
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
+        int[] dCounts = new int[25];
         for (Citizen citizen : citizens) {
             dCounts[citizen.getDistrict()]++;
         }
@@ -373,13 +384,14 @@ public class MyProgram {
         }
         System.out.println("Total number of people in all districts: " + totalPeople);
     }
+
     /**
      * method totalMalesAndFemales
      * compute the total number of males and females
      */
     private void totalMalesAndFemales() {
         MyProgramUtility utility = new MyProgramUtility();
-        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+        List<Citizen> citizens = utility.readDataFileIntoList("data.csv");
         int totalMales = 0;
         int totalFemales = 0;
         for (Citizen citizen : citizens) {
@@ -392,24 +404,25 @@ public class MyProgram {
         System.out.println("Total males: " + totalMales);
         System.out.println("Total females: " + totalFemales);
     }
+
     /**
      * method totalResidentsAndNonResidents
      * computes the total number of residents and non residents
      */
     private void totalResidentsAndNonResidents() {
-        String fileName = "res/data.csv";
+        String fileName = "data.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             int rCount = 0;
             int nrCount = 0;
             String line;
-            br.readLine(); // skip headers
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                String residencyStatus = data[0].trim();
-                if (residencyStatus.equalsIgnoreCase("resident")) {
-                    rCount++;
-                } else {
+                String residencyStatus = data[5].trim();
+                if (residencyStatus.equalsIgnoreCase("non-resident")) {
                     nrCount++;
+                } else {
+                    rCount++;
                 }
             }
             System.out.println("Number of residents: " + rCount);
