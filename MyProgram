@@ -7,6 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.File;
 
 public class MyProgram {
 
@@ -25,6 +29,9 @@ public class MyProgram {
 
     public void run() throws FileNotFoundException, Exception {
         Scanner keyboard = new Scanner(System.in);
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+
         int choice;
 
         do {
@@ -44,47 +51,46 @@ public class MyProgram {
             switch (choice) {
                 case 1:
 
-                    MyProgramUtility utility = new MyProgramUtility();
-                    List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+                    // Print out the Citizen objects
                     for (Citizen citizen : citizens) {
                         System.out.printf("%s%n", citizen);
                     }
-                        break;
-                        case 2:
-                            /**
-                             * SORTING OPTION HERE:
-                             * - Menu 1, ascending or descending order?
-                             * - Menu 2:
-                             * 1 Sort data based on names
-                             * 2 Sort data based on age
-                             * 3 Sort data based on district number
-                             * 4 Sort data based on gender
-                             * 5 Sort data based on type of residency
-                             */
-                            break;
-                        case 3:
-                            /**
-                             * COMPARING OPTION HERE:
-                             * Compare 2 entities:
-                             * - Menu 1: Input: (Last name, First name)
-                             * - Enter Name 1:
-                             * - Enter Name 2:
-                             * - result must be ("Name", "age" is older than "Name","age" ) ("Name", "residency" is a resident whilst "Name","residency" is not) etc.,
-                             * - (display compared result on age, type of residency, district number, and gender)
-                             */
-                            break;
-                        case 4:
-                            /**
-                             * COMPUTE OPTION HERE:
-                             * Compute for:
-                             * 1 Total males & females (Total males are: "" and total females are: "")
-                             * 2 Total residents & non-residents (Total residents are: "" and total non-residents are: "")
-                             * 3 Total number of people in a district (Total people in district "" are: "")
-                             * 4 Total residents and non-residents that are in a specific district (separated) (Total residents in district "" are: "" and the total non-residents in district "" are: "" )
-                             * 5 Total males and females in a specific district (Total males in district "" are: "" and the total females in district "" are: "" )
-                             * 6 Average of all ages
-                             * 7 Average of ages per district (Average age of district "": "")
-                             */
+                    break;
+                case 2:
+                    /**
+                     * SORTING OPTION HERE:
+                     * - Menu 1, ascending or descending order?
+                     * - Menu 2:
+                     * 1 Sort data based on names
+                     * 2 Sort data based on age
+                     * 3 Sort data based on district number
+                     * 4 Sort data based on gender
+                     * 5 Sort data based on type of residency
+                     */
+                    break;
+                case 3:
+                    /**
+                     * COMPARING OPTION HERE:
+                     * Compare 2 entities:
+                     * - Menu 1: Input: (Last name, First name)
+                     * - Enter Name 1:
+                     * - Enter Name 2:
+                     * - result must be ("Name", "age" is older than "Name","age" ) ("Name", "residency" is a resident whilst "Name","residency" is not) etc.,
+                     * - (display compared result on age, type of residency, district number, and gender)
+                     */
+                    break;
+                case 4:
+                    /**
+                     * COMPUTE OPTION HERE:
+                     * Compute for:
+                     * 1 Total males & females (Total males are: "" and total females are: "")
+                     * 2 Total residents & non-residents (Total residents are: "" and total non-residents are: "")
+                     * 3 Total number of people in a district (Total people in district "" are: "")
+                     * 4 Total residents and non-residents that are in a specific district (separated) (Total residents in district "" are: "" and the total non-residents in district "" are: "" )
+                     * 5 Total males and females in a specific district (Total males in district "" are: "" and the total females in district "" are: "" )
+                     * 6 Average of all ages
+                     * 7 Average of ages per district (Average age of district "": "")
+                     */
 
                     System.out.println("Compute for: ");
                     System.out.println("1. Total males & females");
@@ -94,11 +100,12 @@ public class MyProgram {
                     System.out.println("5. Total males and females in a district");
                     System.out.println("6. Average of all ages");
                     System.out.println("7. Average of ages per district");
-                    System.out.println("8. Exit");
+                    System.out.println("8. Back to Main Menu");
                     System.out.print("Enter your choice: ");
 
-                    Random scanner = null;
-                    choice = scanner.nextInt();
+                    Scanner scanner = new Scanner(System.in);
+                    choice = keyboard.nextInt();
+
                     switch (choice) {
                         case 1:
                             totalMalesAndFemales();
@@ -128,330 +135,355 @@ public class MyProgram {
                             System.out.println("Invalid choice. Please try again.");
                             break;
                     }
-                    System.exit(0);
 
+                    break;
+            case 5:
+                /**
+                 * FILTER OPTION HERE:
+                 * Menu 1:
+                 * Choose what to filter:
+                 * 1 Age ranging from
+                 * 2 People living in a specific district
+                 * 3 Residency Type
+                 * 4 Gender
+                 * 5 Name
+                 * Menu 2:
+                 * Enter district
+                 * Menu 3:
+                 * 1 Residents only
+                 * 2 Non-residents only
+                 * Menu 4:
+                 * Males only
+                 * Females only
+                 * Menu 5:
+                 * 1 First name starting with letter
+                 * 2 Last name starting with letter
+                 * Menu 5.1:
+                 * Enter letter:
+                 */
+                utility = new MyProgramUtility();
+                citizens = utility.readDataFileIntoList("res/data.csv");
+                System.out.println("FILTER OPTION HERE:");
+                System.out.println("Menu 1:");
+                System.out.println("Choose what to filter:");
+                System.out.println("1 Age ranging from");
+                System.out.println("2 People living in a specific district");
+                System.out.println("3 Residency Type");
+                System.out.println("4 Gender");
+                System.out.println("5 Name");
+                System.out.print("Enter your choice: ");
+                int option = keyboard.nextInt();
+
+                switch (option) {
+                    case 1:
+                        filterByAgeRange(citizens);
+                        break;
+                    case 2:
+                        filterByDistrict(citizens);
+                        break;
+                    case 3:
+                        filterByResidencyType(citizens);
+                        break;
+                    case 4:
+                        filterByGender(citizens);
+                        break;
+                    case 5:
+                        filterByName(citizens);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+                keyboard.close();
+                break;
+            case 6:
+                /**
+                 * SEARCH OPTION HERE:
+                 * Search for:
+                 * 1 Name
+                 * 2 Email Address
+                 * 3 Address
+                 * 4 Age
+                 * 5 Type of residency
+                 * 6 District number
+                 * 7 Gender
+                 * Input (chosen type to search for)
+                 */
+                /** (Incomplete search method, works pero need pa ng fixing pag pinili yung type of residency)
+                 List<Citizen> allCitizens = MyProgramUtility.readDataFileIntoList("data.csv");
+
+
+                 // Display search options for the user.
+                 System.out.println("Search for (Enter Number):");
+                 System.out.println("1. Name");
+                 System.out.println("2. Email Address");
+                 System.out.println("3. Address");
+                 System.out.println("4. Age");
+                 System.out.println("5. Type of residency");
+                 System.out.println("6. District number");
+                 System.out.println("7. Gender");
+
+
+                 // Prompt user to select an information about a citizen / citizens that they want to search for.
+                 Scanner kbd = new Scanner(System.in);
+                 System.out.println("Enter the number corresponding to the detail/information of the citizen you want to search for:");
+                 int detail = kbd.nextInt();
+                 kbd.nextLine();
+                 String userInput = "";
+
+
+                 switch (detail) {
+                 case 1:
+                 System.out.print("Please enter the full name of the citizen: ");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 2:
+                 System.out.print("Please enter the email address of the citizen: ");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 3:
+                 System.out.print("Please enter the home address of the citizen/citizens: ");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 4:
+                 System.out.print("Please enter the age of the citizen/citizens:");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 5:
+                 System.out.print("Please enter the type of residency of the citizen/citizens:");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 6:
+                 System.out.print("Please enter the district number of the citizen/citizens: ");
+                 userInput = kbd.nextLine();
+                 break;
+                 case 7:
+                 System.out.println("Please enter the gender of the citizen/citizens: ");
+                 userInput = kbd.nextLine();
+                 break;
+                 default:
+                 System.out.println("Invalid details provided.");
+                 }
+
+
+                 // Search for users based on user input
+                 searchCitizens(allCitizens, detail, userInput);
+                 kbd.close();
+                 }
+
+
+                 public static void searchCitizens(List<Citizen> citizens, int detail, String userInput) {
+
+
+
+
+                 System.out.println("Search results from the selected information: ");
+                 System.out.println();
+                 System.out.printf("%-20s %-50s %-45s %-5s %-10s %-10s %-5s%n",
+                 "Full Name", "Email Address", "Home Address", "Age", "Residency", "District", "Gender");
+                 System.out.println("================================================================================================================================================================");
+                 System.out.println();
+                 for (Citizen citizen : citizens) {
+                 switch (detail) {
+                 case 1:
+                 if (citizen.getFullName().equalsIgnoreCase(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+
+
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 2:
+                 if (citizen.getEmail().equalsIgnoreCase(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 3:
+                 if (citizen.getAddress().equalsIgnoreCase(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 4:
+                 if (String.valueOf(citizen.getAge()).equals(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 5:
+                 if (String.valueOf(citizen.isResident()).equalsIgnoreCase(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 6:
+                 if (String.valueOf(citizen.getDistrict()).equals(userInput)) {
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 case 7:
+                 if (String.valueOf(citizen.getGender()).equalsIgnoreCase(userInput)) {
+                 System.out.println(citizen);
+                 String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                 System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
+                 citizen.getFullName(),
+                 citizen.getEmail(),
+                 citizen.getAddress(),
+                 citizen.getAge(),
+                 residency,
+                 citizen.getDistrict(),
+                 citizen.getGender());
+                 }
+                 break;
+                 default:
+                 System.out.println("Invalid search field.");
+                 }
+                 }
+                 System.out.println();
+                 System.out.println("================================================================================================================================================================");
+                 }
+                 }
+
+                 */
+
+                break;
+            case 7:
+                /**
+                 * MODIFY (delete or add) OPTION HERE:
+                 * Menu:
+                 * 1 Delete a specific person
+                 * 2 Add another person
+                 */
+                break;
+            case 8:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid choice. Please enter a number between 1 and 8.");
             }
+        }while (choice != 8) ;
 
+        keyboard.close();
+    }
 
-                            break;
-                        case 5:
-                            /**
-                             * FILTER OPTION HERE:
-                             * Menu 1:
-                             * Choose what to filter:
-                             * 1 Age ranging from
-                             * 2 People living in a specific district
-                             * 3 Residency Type
-                             * 4 Gender
-                             * 5 Name
-                             * Menu 2:
-                             * Enter district
-                             * Menu 3:
-                             * 1 Residents only
-                             * 2 Non-residents only
-                             * Menu 4:
-                             * Males only
-                             * Females only
-                             * Menu 5:
-                             * 1 First name starting with letter
-                             * 2 Last name starting with letter
-                             * Menu 5.1:
-                             * Enter letter:
-                             */
-                            break;
-                        case 6:
-                            /**
-                             * SEARCH OPTION HERE:
-                             * Search for:
-                             * 1 Name
-                             * 2 Email Address
-                             * 3 Address
-                             * 4 Age
-                             * 5 Type of residency
-                             * 6 District number
-                             * 7 Gender
-                             * Input (chosen type to search for)
-                             */
-                            /** (Incomplete search method, works pero need pa ng fixing pag pinili yung type of residency)
-                                List<Citizen> allCitizens = MyProgramUtility.readDataFileIntoList("data.csv");
-                        
-                        
-                                // Display search options for the user.
-                                System.out.println("Search for (Enter Number):");
-                                System.out.println("1. Name");
-                                System.out.println("2. Email Address");
-                                System.out.println("3. Address");
-                                System.out.println("4. Age");
-                                System.out.println("5. Type of residency");
-                                System.out.println("6. District number");
-                                System.out.println("7. Gender");
-                        
-                        
-                                // Prompt user to select an information about a citizen / citizens that they want to search for.
-                                Scanner kbd = new Scanner(System.in);
-                                System.out.println("Enter the number corresponding to the detail/information of the citizen you want to search for:");
-                                int detail = kbd.nextInt();
-                                kbd.nextLine();
-                                String userInput = "";
-                        
-                        
-                                switch (detail) {
-                                    case 1:
-                                        System.out.print("Please enter the full name of the citizen: ");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 2:
-                                        System.out.print("Please enter the email address of the citizen: ");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 3:
-                                        System.out.print("Please enter the home address of the citizen/citizens: ");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 4:
-                                        System.out.print("Please enter the age of the citizen/citizens:");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 5:
-                                        System.out.print("Please enter the type of residency of the citizen/citizens:");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 6:
-                                        System.out.print("Please enter the district number of the citizen/citizens: ");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    case 7:
-                                        System.out.println("Please enter the gender of the citizen/citizens: ");
-                                        userInput = kbd.nextLine();
-                                        break;
-                                    default:
-                                        System.out.println("Invalid details provided.");
-                                }
-                        
-                        
-                                // Search for users based on user input
-                                searchCitizens(allCitizens, detail, userInput);
-                                kbd.close();
-                            }
-                        
-                        
-                            public static void searchCitizens(List<Citizen> citizens, int detail, String userInput) {
-                        
-                        
-                        
-                        
-                                System.out.println("Search results from the selected information: ");
-                                System.out.println();
-                                System.out.printf("%-20s %-50s %-45s %-5s %-10s %-10s %-5s%n",
-                                        "Full Name", "Email Address", "Home Address", "Age", "Residency", "District", "Gender");
-                                System.out.println("================================================================================================================================================================");
-                                System.out.println();
-                                for (Citizen citizen : citizens) {
-                                    switch (detail) {
-                                        case 1:
-                                            if (citizen.getFullName().equalsIgnoreCase(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                        
-                        
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 2:
-                                            if (citizen.getEmail().equalsIgnoreCase(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 3:
-                                            if (citizen.getAddress().equalsIgnoreCase(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 4:
-                                            if (String.valueOf(citizen.getAge()).equals(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 5:
-                                            if (String.valueOf(citizen.isResident()).equalsIgnoreCase(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 6:
-                                            if (String.valueOf(citizen.getDistrict()).equals(userInput)) {
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        case 7:
-                                            if (String.valueOf(citizen.getGender()).equalsIgnoreCase(userInput)) {
-                                                System.out.println(citizen);
-                                                String residency = citizen.isResident() ? "Resident" : "Non-Resident";
-                                                System.out.printf("%-20s %-50s %-45s %-5d %-10b %-10d %-5c%n",
-                                                        citizen.getFullName(),
-                                                        citizen.getEmail(),
-                                                        citizen.getAddress(),
-                                                        citizen.getAge(),
-                                                        residency,
-                                                        citizen.getDistrict(),
-                                                        citizen.getGender());
-                                            }
-                                            break;
-                                        default:
-                                            System.out.println("Invalid search field.");
-                                    }
-                                }
-                                System.out.println();
-                                System.out.println("================================================================================================================================================================");
-                            }
-                        }
+    private void averageOfAgesPerDistrict() {
 
-                        */
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
 
-                            break;
-                        case 7:
-                            /**
-                             * MODIFY (delete or add) OPTION HERE:
-                             * Menu:
-                             * 1 Delete a specific person
-                             * 2 Add another person
-                             */
-                            break;
-                        case 8:
-                            System.exit(0);
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please enter a number between 1 and 8.");
-                    }
-            }
-            while (choice != 8) ;
+        int[] districtCounts = new int[20];
+        int[] districtSums = new int[20];
 
-            keyboard.close();
+        for (Citizen citizen : citizens) {
+            districtCounts[citizen.getDistrict() - 1]++;
+            districtSums[citizen.getDistrict() - 1] += citizen.getAge();
         }
 
-//mga method nung case 4,, ung sa tally:
-
- private void averageOfAgesPerDistrict() {
-
-            MyProgramUtility utility = new MyProgramUtility();
-            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
-
-            int[] districtCounts = new int[20];
-            int[] districtSums = new int[20];
-
-            for (Citizen citizen : citizens) {
-                districtCounts[citizen.getDistrict() - 1]++;
-                districtSums[citizen.getDistrict() - 1] += citizen.getAge();
-            }
-
-            for (int i = 0; i < districtCounts.length; i++) {
-                double averageAge = (double) districtSums[i] / districtCounts[i];
-                System.out.println("Average age in district " + (i + 1) + ": " + averageAge);
-            }
+        for (int i = 0; i < districtCounts.length; i++) {
+            double averageAge = (double) districtSums[i] / districtCounts[i];
+            System.out.println("Average age in district " + (i + 1) + ": " + averageAge);
         }
-
+    }
 
     private void averageOfAllAges() {
-            MyProgramUtility utility = new MyProgramUtility();
-            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
 
-            int sum = 0;
-            for (Citizen citizen : citizens) {
-                sum += citizen.getAge();
-            }
-
-            double averageAge = (double) sum / citizens.size();
-            System.out.println("Average age: " + averageAge);
+        int sum = 0;
+        for (Citizen citizen : citizens) {
+            sum += citizen.getAge();
         }
+
+        double averageAge = (double) sum / citizens.size();
+        System.out.println("Average age: " + averageAge);
+    }
 
 
     private void totalMalesAndFemalesInDistrict() {
-            MyProgramUtility utility = new MyProgramUtility();
-            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
 
-            int[] districtMaleCounts = new int[20];
-            int[] districtFemaleCounts = new int[1200];
+        int[] districtMaleCounts = new int[20];
+        int[] districtFemaleCounts = new int[1200];
 
-            for (Citizen citizen : citizens) {
-                if (citizen.getGender() == 'M') {
-                    districtMaleCounts[citizen.getDistrict()]++;
-                } else {
-                    districtFemaleCounts[citizen.getDistrict()]++;
-                }
-            }
-
-            for (int i = 1; i <= 10; i++) {
-                System.out.println("Total males in district " + i + ": " + districtMaleCounts[i - 1]);
-                System.out.println("Total females in district " + i + ": " + districtFemaleCounts[i - 1]);
+        for (Citizen citizen : citizens) {
+            if (citizen.getGender() == 'M') {
+                districtMaleCounts[citizen.getDistrict()]++;
+            } else {
+                districtFemaleCounts[citizen.getDistrict()]++;
             }
         }
+
+        for (int i = 1; i <= 10; i++) {
+            System.out.println("Total males in district " + i + ": " + districtMaleCounts[i - 1]);
+            System.out.println("Total females in district " + i + ": " + districtFemaleCounts[i - 1]);
+        }
+    }
 
 
     private void totalResidentsAndNonResidentsInDistrict() {
-            MyProgramUtility utility = new MyProgramUtility();
-            List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
+        MyProgramUtility utility = new MyProgramUtility();
+        List<Citizen> citizens = utility.readDataFileIntoList("res/data.csv");
 
-            int[] dResidentCount = new int[20];
-            int[] dNonResidentCount = new int[20];
+        int[] dResidentCount = new int[20];
+        int[] dNonResidentCount = new int[20];
 
-            for (Citizen citizen : citizens) {
-                if (citizen.isResident()) {
-                    dResidentCount[citizen.getDistrict()]++;
-                } else {
-                    dNonResidentCount[citizen.getDistrict()]++;
-                }
-            }
-
-            for (int i = 1; i <= 10; i++) {
-                System.out.println("Total residents in district " + i + ": " + dResidentCount[i - 1]);
-                System.out.println("Total non-residents in district " + i + ": " + dNonResidentCount[i - 1]);
+        for (Citizen citizen : citizens) {
+            if (citizen.isResident()) {
+                dResidentCount[citizen.getDistrict()]++;
+            } else {
+                dNonResidentCount[citizen.getDistrict()]++;
             }
         }
+
+        for (int i = 1; i <= 10; i++) {
+            System.out.println("Total residents in district " + i + ": " + dResidentCount[i - 1]);
+            System.out.println("Total non-residents in district " + i + ": " + dNonResidentCount[i - 1]);
+        }
+    }
 
     private void totalPeopleInDistrict() {
         MyProgramUtility utility = new MyProgramUtility();
@@ -524,151 +556,167 @@ public class MyProgram {
 
     }
 
-    //modifyyy methodd (medj kulang pa e2)  
+    //modifyyy methodd (medj kulang pa e2)
     protected static void modify() throws Exception {
-            Scanner keyboard = new Scanner(System.in);
-            int choice;
-            boolean continueLooping = true;
+        Scanner keyboard = new Scanner(System.in);
+        int choice;
+        boolean continueLooping = true;
 
-            while (continueLooping) {
-                System.out.println("Modify data");
-                System.out.println("Options:");
-                System.out.println("1. Add");
-                System.out.println("2. Delete");
-                System.out.print("Input choice: ");
-                choice = keyboard.nextInt();
-                keyboard.nextLine();
+        while (continueLooping) {
+            System.out.println("Modify data");
+            System.out.println("Options:");
+            System.out.println("1. Add");
+            System.out.println("2. Delete");
+            System.out.print("Input choice: ");
+            choice = keyboard.nextInt();
+            keyboard.nextLine();
 
-                switch (choice) {
-                    case 1:
-                        System.out.println("Add data");
-                        File dataFile = new File("res/data");
-                        try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
+            switch (choice) {
+                case 1:
+                    System.out.println("Add data");
+                    File dataFile = new File("res/data");
+                    try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
 
-                            String firstName = null;
-                            String lastName = null;
-                            String fullName = null;
+                        String firstName = null;
+                        String lastName = null;
+                        String fullName = null;
 
-                            while (fullName == null) {
-                                System.out.print("Enter the first name: ");
-                                firstName = keyboard.nextLine();
-                                if (firstName.equals("")) {
-                                    System.out.println("First name cannot be empty. Please try again.");
+                        while (fullName == null) {
+                            System.out.print("Enter the first name: ");
+                            firstName = keyboard.nextLine();
+                            if (firstName.equals("")) {
+                                System.out.println("First name cannot be empty. Please try again.");
+                            } else {
+                                System.out.print("Enter the last name: ");
+                                lastName = keyboard.nextLine();
+                                if (lastName.isEmpty()) {
+                                    System.out.println("Last name cannot be empty. Please try again.");
                                 } else {
-                                    System.out.print("Enter the last name: ");
-                                    lastName = keyboard.nextLine();
-                                    if (lastName.isEmpty()) {
-                                        System.out.println("Last name cannot be empty. Please try again.");
-                                    } else {
-                                        fullName = firstName + " " + lastName;
-                                    }
+                                    fullName = firstName + " " + lastName;
                                 }
                             }
-
-                            String email = null;
-                            while (email == null) {
-                                System.out.print("Enter the email address: ");
-                                email = keyboard.nextLine();
-                                if (!email.contains("@") || !email.contains(".com")) {
-                                    System.out.println("Invalid email address. Please try again.");
-                                    email = null;
-                                }
-                            }
-
-                            String address = null;
-                            while (address == null) {
-                                System.out.print("Enter the address: ");
-                                address = keyboard.nextLine();
-                                if (address.isEmpty()) {
-                                    System.out.println("Address cannot be empty. Please try again.");
-                                    address = null;
-                                }
-                            }
-
-                            int age = 0;
-                            while (age <= 0) {
-                                System.out.print("Enter the age: ");
-                                try {
-                                    age = Integer.parseInt(keyboard.nextLine());
-                                } catch (NumberFormatException e) {
-                                    System.out.println("Invalid age. Please enter a valid number.");
-                                    age = 0;
-                                }
-                                if (age <= 0) {
-                                    System.out.println("Age must be greater than zero. Please try again.");
-                                }
-                            }
-
-                            String residentInput = null;
-                            boolean isResident = false;
-                            String resident = "";
-                            while (residentInput == null) {
-                                System.out.print("Enter if resident (yes/no): ");
-                                residentInput = keyboard.nextLine();
-                                if (residentInput.equalsIgnoreCase("yes")) {
-                                    isResident = true;
-                                    resident = "resident";
-                                } else if (residentInput.equalsIgnoreCase("no")) {
-                                    isResident = false;
-                                    resident = "non-resident";
-                                } else {
-                                    System.out.println("Invalid resident input. Please enter either 'yes' or 'no'.");
-                                    residentInput = null;
-                                }
-                            }
-
-                            String districtInput = null;
-                            int district = 0;
-                            while (districtInput == null) {
-                                System.out.print("Enter the district: ");
-                                try {
-                                    districtInput = keyboard.nextLine();
-                                    district = Integer.parseInt(districtInput);
-                                } catch (NumberFormatException e) {
-                                    System.out.println("Invalid district. Please enter a valid number.");
-                                    districtInput = null;
-                                }
-                            }
-
-                             char genderInput;
-                            String gender = "";
-
-                            while (gender.isEmpty()) {
-                                System.out.print("Enter the gender (m/f): ");
-                                genderInput = keyboard.nextLine().charAt(0);
-                                if (genderInput == 'm') {
-                                    gender = "Male";
-                                } else if (genderInput == 'f') {
-                                    gender = "Female";
-                                } else {
-                                    System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
-                                    gender = "";
-                                }
-                            }
-
-                            writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
-                        } catch (FileNotFoundException e) {
-                            System.out.println("The file does not exist.");
                         }
-                        break;
-                    case 2:
-                        System.out.println("Delete data");
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                        break;
 
-                }
-                System.out.print("Do you want to continue? (yes/no): ");
-                String continueResponse = keyboard.next();
-                if (!continueResponse.equalsIgnoreCase("yes")) {
-                    continueLooping = false;
-                    System.out.println("Modifying done");
-                }
+                        String email = null;
+                        while (email == null) {
+                            System.out.print("Enter the email address: ");
+                            email = keyboard.nextLine();
+                            if (!email.contains("@") || !email.contains(".com")) {
+                                System.out.println("Invalid email address. Please try again.");
+                                email = null;
+                            }
+                        }
+
+                        String address = null;
+                        while (address == null) {
+                            System.out.print("Enter the address: ");
+                            address = keyboard.nextLine();
+                            if (address.isEmpty()) {
+                                System.out.println("Address cannot be empty. Please try again.");
+                                address = null;
+                            }
+                        }
+
+                        int age = 0;
+                        while (age <= 0) {
+                            System.out.print("Enter the age: ");
+                            try {
+                                age = Integer.parseInt(keyboard.nextLine());
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid age. Please enter a valid number.");
+                                age = 0;
+                            }
+                            if (age <= 0) {
+                                System.out.println("Age must be greater than zero. Please try again.");
+                            }
+                        }
+
+                        String residentInput = null;
+                        boolean isResident = false;
+                        String resident = "";
+                        while (residentInput == null) {
+                            System.out.print("Enter if resident (yes/no): ");
+                            residentInput = keyboard.nextLine();
+                            if (residentInput.equalsIgnoreCase("yes")) {
+                                isResident = true;
+                                resident = "resident";
+                            } else if (residentInput.equalsIgnoreCase("no")) {
+                                isResident = false;
+                                resident = "non-resident";
+                            } else {
+                                System.out.println("Invalid resident input. Please enter either 'yes' or 'no'.");
+                                residentInput = null;
+                            }
+                        }
+
+                        String districtInput = null;
+                        int district = 0;
+                        while (districtInput == null) {
+                            System.out.print("Enter the district: ");
+                            try {
+                                districtInput = keyboard.nextLine();
+                                district = Integer.parseInt(districtInput);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid district. Please enter a valid number.");
+                                districtInput = null;
+                            }
+                        }
+
+                        char genderInput;
+                        String gender = "";
+
+                        while (gender.isEmpty()) {
+                            System.out.print("Enter the gender (m/f): ");
+                            genderInput = keyboard.nextLine().charAt(0);
+                            if (genderInput == 'm') {
+                                gender = "Male";
+                            } else if (genderInput == 'f') {
+                                gender = "Female";
+                            } else {
+                                System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
+                                gender = "";
+                            }
+                        }
+
+                        writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
+                    } catch (FileNotFoundException e) {
+                        System.out.println("The file does not exist.");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Delete data");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+
+            }
+            System.out.print("Do you want to continue? (yes/no): ");
+            String continueResponse = keyboard.next();
+            if (!continueResponse.equalsIgnoreCase("yes")) {
+                continueLooping = false;
+                System.out.println("Modifying done");
             }
         }
     }
+    private static void filterByAgeRange(List<Citizen> citizens) {
+    }
+
+    private static void filterByDistrict(List<Citizen> citizens) {
+    }
+
+    private static void filterByResidencyType(List<Citizen> citizens) {
+    }
+
+    private static void filterByGender(List<Citizen> citizens) {
+    }
+
+    private static void filterByName(List<Citizen> citizens) {
+    }
 }
-    
+
+
+
+
 
 
