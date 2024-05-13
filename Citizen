@@ -98,11 +98,13 @@ public class Citizen implements Comparable<Citizen> {
     /**
      *Returns a string describing a citizen.
      **/
-    public String toString(){
-        String result="";
-        result = fullName+","+email+","+address+","+age+","+resident+","+district+","+gender;
-        return result;
+    public String toString() {
+        String residentStr = resident ? "Resident" : "Non-Resident";
+        return String.format("%-30s%-60s%-50s%-10d%-15s%-10d%-5c",
+                fullName, email, address, age, residentStr, district, gender);
     }
+
+
     @Override
     public int compareTo(Citizen another) {
         if (this.isResident() && !another.isResident()) {
