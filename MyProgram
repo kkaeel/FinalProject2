@@ -432,7 +432,6 @@ public class MyProgram {
         }
     }
     // Start of Search Method
-
     public static void runSearch() {
         // Retrieve user choice and search citizens
         List<Citizen> allCitizens = MyProgramUtility.readDataFileIntoList("data.csv");
