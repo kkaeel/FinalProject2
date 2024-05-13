@@ -498,12 +498,7 @@ public class MyProgram {
 
                 break;
             case 7:
-                /**
-                 * MODIFY (delete or add) OPTION HERE:
-                 * Menu:
-                 * 1 Delete a specific person
-                 * 2 Add another person
-                 */
+               modify();
                 break;
             case 8:
                 System.exit(0);
@@ -630,134 +625,297 @@ public class MyProgram {
             throw new RuntimeException(e);
         }
     }
-    //modifyyy methodd (medj kulang pa e2)
+    //modifyyy methodd 
     protected static void modify() throws Exception {
-        Scanner keyboard = new Scanner(System.in);
-        int choice;
-        boolean continueLooping = true;
-        while (continueLooping) {
-            System.out.println("Modify data");
-            System.out.println("Options:");
-            System.out.println("1. Add");
-            System.out.println("2. Delete");
-            System.out.print("Input choice: ");
-            choice = keyboard.nextInt();
-            keyboard.nextLine();
-            switch (choice) {
-                case 1:
-                    System.out.println("Add data");
-                    File dataFile = new File("res/data.csv");
-                    try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
-                        String firstName = null;
-                        String lastName = null;
-                        String fullName = null;
-                        while (fullName == null) {
-                            System.out.print("Enter the first name: ");
-                            firstName = keyboard.nextLine();
-                            if (firstName.equals("")) {
-                                System.out.println("First name cannot be empty. Please try again.");
-                            } else {
-                                System.out.print("Enter the last name: ");
-                                lastName = keyboard.nextLine();
-                                if (lastName.isEmpty()) {
-                                    System.out.println("Last name cannot be empty. Please try again.");
+            boolean continueModifying = true;
+            Scanner keyboard = new Scanner(System.in);
+
+            while (continueModifying) {
+                List<Citizen> citizens = MyProgramUtility.readDataFileIntoList("res/data.csv");
+                int choice = 0;
+                boolean continueLooping = true;
+
+                while (continueLooping) {
+                    System.out.println("Modify data");
+                    System.out.println("Options:");
+                    System.out.println("1. Add");
+                    System.out.println("2. Delete");
+                    System.out.print("Input choice: ");
+                    choice = keyboard.nextInt();
+                    keyboard.nextLine();
+
+                    switch (choice) {
+                        case 1:
+                            // Code for adding data
+                            continueLooping = false; // Exit loop after valid input
+                            break;
+                        case 2:
+                            // Code for deleting data
+                            continueLooping = false; // Exit loop after valid input
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please enter 1 or 2.");
+                            break;
+                    }
+                }
+
+                switch (choice) {
+                    case 1:
+                        System.out.println("Add data");
+                        File dataFile = new File("res/data.csv");
+                        try (PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true))) {
+
+                            String firstName = null;
+                            String lastName = null;
+                            String fullName = null;
+
+                            while (fullName == null) {
+                                System.out.print("Enter the first name: ");
+                                firstName = keyboard.nextLine();
+                                if (firstName.equals("")) {
+                                    System.out.println("First name cannot be empty. Please try again.");
                                 } else {
-                                    fullName = firstName + " " + lastName;
+                                    System.out.print("Enter the last name: ");
+                                    lastName = keyboard.nextLine();
+                                    if (lastName.isEmpty()) {
+                                        System.out.println("Last name cannot be empty. Please try again.");
+                                    } else {
+                                        fullName = firstName + " " + lastName;
+                                    }
                                 }
                             }
+
+                            String email = null;
+                            while (email == null) {
+                                System.out.print("Enter the email address: ");
+                                email = keyboard.nextLine();
+                                if (!email.contains("@") || !email.contains(".com")) {
+                                    System.out.println("Invalid email address. Please try again.");
+                                    email = null;
+                                }
+                            }
+
+                            String address = null;
+                            while (address == null) {
+                                System.out.print("Enter the address: ");
+                                address = keyboard.nextLine();
+                                if (address.isEmpty()) {
+                                    System.out.println("Address cannot be empty. Please try again.");
+                                    address = null;
+                                }
+                            }
+
+                            int age = 0;
+                            while (age <= 0) {
+                                System.out.print("Enter the age: ");
+                                try {
+                                    age = Integer.parseInt(keyboard.nextLine());
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid age. Please enter a valid number.");
+                                    age = 0;
+                                }
+                                if (age <= 0) {
+                                    System.out.println("Age must be greater than zero. Please try again.");
+                                }
+                            }
+
+                            String residentInput = null;
+                            boolean isResident = false;
+                            String resident = "";
+                            while (residentInput == null) {
+                                System.out.print("Enter if resident (yes/no): ");
+                                residentInput = keyboard.nextLine();
+                                if (residentInput.equalsIgnoreCase("yes")) {
+                                    isResident = true;
+                                    resident = "resident";
+                                } else if (residentInput.equalsIgnoreCase("no")) {
+                                    isResident = false;
+                                    resident = "non-resident";
+                                } else {
+                                    System.out.println("Invalid resident input. Please enter either 'yes' or 'no'.");
+                                    residentInput = null;
+                                }
+                            }
+
+                            String districtInput = null;
+                            int district = 0;
+                            while (districtInput == null) {
+                                System.out.print("Enter the district: ");
+                                try {
+                                    districtInput = keyboard.nextLine();
+                                    district = Integer.parseInt(districtInput);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid district. Please enter a valid number.");
+                                    districtInput = null;
+                                }
+                            }
+
+                            char genderInput;
+                            String gender = "";
+
+                            while (gender.isEmpty()) {
+                                System.out.print("Enter the gender (m/f): ");
+                                genderInput = keyboard.nextLine().charAt(0);
+                                if (genderInput == 'm') {
+                                    gender = "Male";
+                                } else if (genderInput == 'f') {
+                                    gender = "Female";
+                                } else {
+                                    System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
+                                    gender = "";
+                                }
+                            }
+
+                            writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
+                        } catch (FileNotFoundException e) {
+                            System.out.println("The file does not exist.");
                         }
-                        String email = null;
-                        while (email == null) {
-                            System.out.print("Enter the email address: ");
-                            email = keyboard.nextLine();
-                            if (!email.contains("@") || !email.contains(".com")) {
-                                System.out.println("Invalid email address. Please try again.");
-                                email = null;
+                        System.out.println("Adding done!");
+                        break;
+                    case 2:
+                        boolean validChoice = false;
+                        int detail = 0;
+                        String userInput = "";
+
+                        while (!validChoice) {
+                            System.out.println("Delete data");
+                            System.out.println("===========");
+                            System.out.println("1. Name");
+                            System.out.println("2. Email Address");
+                            System.out.println("3. Address");
+                            System.out.print("Search for data to be deleted through (Enter Number): ");
+                            Scanner kbd = new Scanner(System.in);
+                            detail = kbd.nextInt();
+                            kbd.nextLine(); // Consume the newline character
+
+                            switch (detail) {
+                                case 1:
+                                    System.out.print("Please enter the full name of the citizen: ");
+                                    userInput = kbd.nextLine();
+                                    validChoice = true;
+                                    break;
+                                case 2:
+                                    System.out.print("Please enter the email address of the citizen: ");
+                                    userInput = kbd.nextLine();
+                                    validChoice = true;
+                                    break;
+                                case 3:
+                                    System.out.print("Please enter the home address of the citizen/citizens: ");
+                                    userInput = kbd.nextLine();
+                                    validChoice = true;
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice. Please try again.");
+                                    break;
                             }
                         }
-                        String address = null;
-                        while (address == null) {
-                            System.out.print("Enter the address: ");
-                            address = keyboard.nextLine();
-                            if (address.isEmpty()) {
-                                System.out.println("Address cannot be empty. Please try again.");
-                                address = null;
-                            }
-                        }
-                        int age = 0;
-                        while (age <= 0) {
-                            System.out.print("Enter the age: ");
-                            try {
-                                age = Integer.parseInt(keyboard.nextLine());
-                            } catch (NumberFormatException e) {
-                                System.out.println("Invalid age. Please enter a valid number.");
-                                age = 0;
-                            }
-                            if (age <= 0) {
-                                System.out.println("Age must be greater than zero. Please try again.");
-                            }
-                        }
-                        String residentInput = null;
-                        boolean isResident = false;
-                        String resident = "";
-                        while (residentInput == null) {
-                            System.out.print("Enter if resident (yes/no): ");
-                            residentInput = keyboard.nextLine();
-                            if (residentInput.equalsIgnoreCase("yes")) {
-                                isResident = true;
-                                resident = "resident";
-                            } else if (residentInput.equalsIgnoreCase("no")) {
-                                isResident = false;
-                                resident = "non-resident";
-                            } else {
-                                System.out.println("Invalid resident input. Please enter either 'yes' or 'no'.");
-                                residentInput = null;
-                            }
-                        }
-                        String districtInput = null;
-                        int district = 0;
-                        while (districtInput == null) {
-                            System.out.print("Enter the district: ");
-                            try {
-                                districtInput = keyboard.nextLine();
-                                district = Integer.parseInt(districtInput);
-                            } catch (NumberFormatException e) {
-                                System.out.println("Invalid district. Please enter a valid number.");
-                                districtInput = null;
-                            }
-                        }
-                        char genderInput;
-                        String gender = "";
-                        while (gender.isEmpty()) {
-                            System.out.print("Enter the gender (m/f): ");
-                            genderInput = keyboard.nextLine().charAt(0);
-                            if (genderInput == 'm') {
-                                gender = "Male";
-                            } else if (genderInput == 'f') {
-                                gender = "Female";
-                            } else {
-                                System.out.println("Invalid gender input. Please enter either 'm' or 'f'.");
-                                gender = "";
-                            }
-                        }
-                        writer.println(firstName +","+ lastName + "," + email + "," + address + "," + age + "," + resident + "," + district + "," + gender);
-                    } catch (FileNotFoundException e) {
-                        System.out.println("The file does not exist.");
-                    }
-                    break;
-                case 2:
-                    System.out.println("Delete data");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
+                        searchDeleteCitizens(citizens, detail, userInput);
+                        System.out.println("Deleting done!");
+                        break;
+                }
+                System.out.print("Do you want to continue modifying? (yes/no): ");
+                String continueResponse = keyboard.next();
+                if (!continueResponse.equalsIgnoreCase("yes")) {
+                    continueModifying = false;
+                    System.out.println("Modifying done!");
+                }
             }
-            System.out.print("Do you want to continue? (yes/no): ");
-            String continueResponse = keyboard.next();
-            if (!continueResponse.equalsIgnoreCase("yes")) {
-                continueLooping = false;
-                System.out.println("Modifying done");
+        }
+
+
+        public static void searchDeleteCitizens(List<Citizen> citizens, int detail, String userInput) {
+            List<String> lines = new ArrayList<>();
+
+            try (BufferedReader reader = new BufferedReader(new FileReader("res/data.csv"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+            } catch (IOException e) {
+                System.err.println("Error reading file: " + e.getMessage());
+                return;
             }
+
+            System.out.println("Search results from the selected information: ");
+            System.out.printf("%-20s %-50s %-45s %-5s %-10s %-10s %-5s%n",
+                    "Full Name", "Email Address", "Home Address", "Age", "Residency", "District", "Gender");
+            System.out.println("================================================================================================================================================================");
+
+            List<String> filteredLines = new ArrayList<>();
+            boolean foundResults = false; // Flag to track if any results were found
+
+            for (String line : lines) {
+                String[] values = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                Citizen citizen = new Citizen(values[0], values[1], values[2], values[3], Integer.parseInt(values[4]), Boolean.parseBoolean(values[5]), Integer.parseInt(values[6]), values[7].charAt(0));
+
+                switch (detail) {
+                    case 1:
+                        if (citizen.getFullName().equalsIgnoreCase(userInput)) {
+                            String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                            System.out.printf("%-20s %-50s %-45s %-5d %-10s %-10d %-5c%n",
+                                    citizen.getFullName(),
+                                    citizen.getEmail(),
+                                    citizen.getAddress(),
+                                    citizen.getAge(),
+                                    residency,
+                                    citizen.getDistrict(),
+                                    citizen.getGender());
+                            foundResults = true; // Set flag to true since result found
+                        } else {
+                            filteredLines.add(line);
+                        }
+                        break;
+                    case 2:
+                        if (citizen.getEmail().equalsIgnoreCase(userInput)) {
+                            String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                            System.out.printf("%-20s %-50s %-45s %-5d %-10s %-10d %-5c%n",
+                                    citizen.getFullName(),
+                                    citizen.getEmail(),
+                                    citizen.getAddress(),
+                                    citizen.getAge(),
+                                    residency,
+                                    citizen.getDistrict(),
+                                    citizen.getGender());
+                            foundResults = true; // Set flag to true since result found
+                        } else {
+                            filteredLines.add(line);
+                        }
+                        break;
+                    case 3:
+                        if (citizen.getAddress().equalsIgnoreCase(userInput)) {
+                            String residency = citizen.isResident() ? "Resident" : "Non-Resident";
+                            System.out.printf("%-20s %-50s %-45s %-5d %-10s %-10d %-5c%n",
+                                    citizen.getFullName(),
+                                    citizen.getEmail(),
+                                    citizen.getAddress(),
+                                    citizen.getAge(),
+                                    residency,
+                                    citizen.getDistrict(),
+                                    citizen.getGender());
+                            foundResults = true; // Set flag to true since result found
+                        } else {
+                            filteredLines.add(line);
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid search field.");
+                }
+            }
+
+            if (!foundResults) {
+                System.out.println("No results found for the search query.");
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("res/data.csv"))) {
+                for (String line : filteredLines) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                System.err.println("Error writing file");
+            }
+            System.out.println("================================================================================================================================================================");
+
         }
     }
     private static void filterByAgeRange(List<Citizen> citizens) {
