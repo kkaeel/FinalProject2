@@ -393,7 +393,7 @@ public class MyProgram {
      * computes the total number of residents and non residents
      */
     private void totalResidentsAndNonResidents() {
-        String fileName = null;
+        String fileName = "res/data.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             int rCount = 0;
             int nrCount = 0;
