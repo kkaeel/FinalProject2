@@ -1,4 +1,4 @@
-package prog2.finalgroup;//di ako sure pero ito yata un,, bat may employee ung kanina anteh ansuigjnskengkse
+package prog2.finalgroup;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,30 +11,30 @@ public class MyProgramUtility {
     public static List<Citizen> readDataFileIntoList(String filename) {
         try {
             List<Citizen> citizens = new ArrayList<>();
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = reader.readLine()) != null) {
+            BufferedReader reader = new BufferedReader(new FileReader(filename)); // create a new bufferedreader to read file
+            String line; // declare a variable to to store each line
+            while ((line = reader.readLine()) != null) { // read each line of the file then store in the line variable
                 String[] data = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
-                // Check if the data array has enough elements
-                if (data.length >= 8) {
+              
+                if (data.length >= 8) { // check if the array has at least 8 elements
 
-                    String fullName = data[0] + " " + data[1]; // Forms full name from the first and last name.
-                    String address = data[3].replace("\"", ""); // Replace double quotes with spaces for the third field only
-                    boolean resident = data[5].equalsIgnoreCase("Resident"); // Check if the resident field is "Resident"
-                    int age = Integer.parseInt(data[4].trim());
-                    int district = Integer.parseInt(data[6].trim());
-                    char gender = data[7].charAt(0);
+                    String fullName = data[0] + " " + data[1]; // Forms full name from the first and last name. // from the full name by concatenating the first name and last name
+                    String address = data[3].replace("\"", ""); // Replace double quotes with spaces for the third field only // replace double quotes with spaces
+                    boolean resident = data[5].equalsIgnoreCase("Resident"); // Check if the resident field is "Resident" // chck if the resident field is "Resident"
+                    int age = Integer.parseInt(data[4].trim()); // parse the age as an integer
+                    int district = Integer.parseInt(data[6].trim()); // parse the district as an integer
+                    char gender = data[7].charAt(0); // get the first character of the gender field
                     Citizen citizen = new Citizen(data[0], data[1], data[2], address, age, resident, district, gender);
 
-                    citizens.add(citizen);
-                    System.out.println(citizen);
+                    citizens.add(citizen); // add citizen object to the list
+                    System.out.println(citizen); // print citizen object
                 } else {
                     throw new RuntimeException("Invalid data format in line: " + line);
                 }
             }
-            reader.close();
-            return citizens;
+            reader.close(); //close the BufferedReader
+            return citizens; // return lis of citizen objects
         } catch (Exception e) {
             throw new RuntimeException("Data file read error: " + e.getMessage());
         }
